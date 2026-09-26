@@ -1,4 +1,4 @@
-package com.example.backend.common.exceptions;
+package com.example.backend.organization.exceptions;
 
 public class OrganizationNotFoundException extends RuntimeException {
 
