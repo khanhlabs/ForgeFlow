@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -26,7 +27,7 @@ public class Organization {
     @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    @NotNull
+    @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
