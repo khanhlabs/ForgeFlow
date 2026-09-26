@@ -1,5 +1,6 @@
 package com.example.backend.entities;
 
+import com.example.backend.organization.entities.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
