@@ -1,4 +1,4 @@
-package com.example.backend.entities;
+package com.example.backend.organization_members.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

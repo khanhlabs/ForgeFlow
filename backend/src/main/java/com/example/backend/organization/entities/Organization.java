@@ -1,6 +1,6 @@
 package com.example.backend.organization.entities;
 
-import com.example.backend.entities.OrganizationMember;
+import com.example.backend.organization_members.entities.OrganizationMember;
 import com.example.backend.entities.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
