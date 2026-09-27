@@ -1,4 +1,4 @@
-package com.example.backend.organization_members.Controller;
+package com.example.backend.organization_members.controller;
 
 import com.example.backend.organization_members.dto.CreateOrganizationMemberRequest;
 import com.example.backend.organization_members.dto.OrganizationMemberResponse;
