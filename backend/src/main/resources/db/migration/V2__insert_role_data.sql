@@ -1,0 +1,7 @@
+INSERT INTO roles (name, scope)
+VALUES
+    ('OWNER', 'ORGANIZATION'),
+    ('ADMIN', 'ORGANIZATION'),
+    ('MEMBER', 'ORGANIZATION'),
+    ('ADMIN', 'PROJECT'),
+    ('MEMBER', 'PROJECT');
