@@ -8,6 +8,7 @@ import com.example.backend.organization_members.dto.CreateOrganizationMemberRequ
 import com.example.backend.organization_members.dto.OrganizationMemberResponse;
 import com.example.backend.organization_members.entities.OrganizationMember;
 import com.example.backend.organization_members.entities.OrganizationMemberId;
+import com.example.backend.organization_members.exceptions.InvalidRoleScopeException;
 import com.example.backend.organization_members.exceptions.OrganizationMemberAlreadyExistException;
 import com.example.backend.organization_members.repositories.OrganizationMemberRepository;
 import com.example.backend.roles.entities.Role;
@@ -59,6 +60,10 @@ public class OrganizationMemberService {
             throw new OrganizationMemberAlreadyExistException(
                     organizationId,
                     request.getUserId());
+        }
+
+        if(!"ORGANIZATION".equals(role.getScope())){
+            throw new InvalidRoleScopeException(role.getId());
         }
 
         OrganizationMember member = new OrganizationMember();

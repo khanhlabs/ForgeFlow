@@ -1,6 +1,7 @@
 package com.example.backend.common.exception;
 
 import com.example.backend.organization.exceptions.OrganizationNotFoundException;
+import com.example.backend.organization_members.exceptions.InvalidRoleScopeException;
 import com.example.backend.organization_members.exceptions.OrganizationMemberAlreadyExistException;
 import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
@@ -40,6 +41,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleOrganizationMemberAlreadyExist(
             OrganizationMemberAlreadyExistException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(InvalidRoleScopeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInvalidRoleScopeException(
+            InvalidRoleScopeException exception
     ){
         return exception.getMessage();
     }
