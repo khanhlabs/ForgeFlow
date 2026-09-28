@@ -3,6 +3,9 @@ package com.example.backend.tasks.task.entities;
 import com.example.backend.attachments.entities.Attachment;
 import com.example.backend.projects.project.entities.Project;
 import com.example.backend.sprints.entities.Sprint;
+import com.example.backend.tasks.task.enums.TaskPriority;
+import com.example.backend.tasks.task.enums.TaskStatus;
+import com.example.backend.tasks.task.enums.TaskType;
 import com.example.backend.tasks.task_assignee.entities.TaskAssignee;
 import com.example.backend.tasks.task_comment.entities.TaskComment;
 import com.example.backend.tasks.task_label.entities.TaskLabel;
@@ -38,18 +41,21 @@ public class Task {
 
     @Size(max = 20)
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private String status;
+    private TaskStatus status;
 
     @Size(max = 20)
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false, length = 20)
-    private String priority;
+    private TaskPriority priority;
 
     @Size(max = 20)
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 20)
-    private String type;
+    private TaskType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sprint_id")
