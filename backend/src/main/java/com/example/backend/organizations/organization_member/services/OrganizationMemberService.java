@@ -1,5 +1,6 @@
 package com.example.backend.organizations.organization_member.services;
 
+import com.example.backend.roles.enums.RoleScope;
 import com.example.backend.users.entities.User;
 import com.example.backend.organizations.organization.entities.Organization;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
@@ -62,7 +63,7 @@ public class OrganizationMemberService {
                     request.getUserId());
         }
 
-        if(!"ORGANIZATION".equals(role.getScope())){
+        if(RoleScope.ORGANIZATION != role.getScope()){
             throw new InvalidRoleScopeException(role.getId());
         }
 

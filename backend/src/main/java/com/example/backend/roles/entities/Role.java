@@ -2,6 +2,7 @@ package com.example.backend.roles.entities;
 
 import com.example.backend.projects.project_members.entities.ProjectMember;
 import com.example.backend.organizations.organization_member.entities.OrganizationMember;
+import com.example.backend.roles.enums.RoleScope;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -28,8 +29,9 @@ public class Role {
 
     @Size(max = 20)
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "scope", nullable = false, length = 20)
-    private String scope;
+    private RoleScope scope;
 
     @OneToMany(mappedBy = "role")
     private Set<OrganizationMember> organizationMembers = new LinkedHashSet<>();
