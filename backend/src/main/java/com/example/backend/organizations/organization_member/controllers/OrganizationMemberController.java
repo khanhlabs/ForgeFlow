@@ -2,10 +2,13 @@ package com.example.backend.organizations.organization_member.controllers;
 
 import com.example.backend.organizations.organization_member.dto.CreateOrganizationMemberRequest;
 import com.example.backend.organizations.organization_member.dto.OrganizationMemberResponse;
+import com.example.backend.organizations.organization_member.dto.UpdateOrganizationMemberRequest;
 import com.example.backend.organizations.organization_member.services.OrganizationMemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/organization")
@@ -25,6 +28,22 @@ public class OrganizationMemberController {
             @Valid @RequestBody CreateOrganizationMemberRequest request
     ) {
         return organizationMemberService.addOrganizationMember(organizationId, request);
+    }
+
+    @GetMapping("/{organizationId}/members")
+    public List<OrganizationMemberResponse> getAllMembers(
+            @PathVariable Long organizationId
+    ) {
+        return organizationMemberService.getAllOrganizationMembers(organizationId);
+    }
+
+    @PatchMapping("/{organizationId}/members/{userId}")
+    public OrganizationMemberResponse updateMember(
+            @PathVariable Long organizationId,
+            @PathVariable Long userId,
+            @Valid @RequestBody UpdateOrganizationMemberRequest request
+    ){
+        return organizationMemberService.updateOrganizationMember(organizationId, userId, request);
     }
 
 }

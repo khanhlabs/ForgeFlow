@@ -1,5 +1,8 @@
 package com.example.backend.organizations.organization_member.services;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
+import com.example.backend.organizations.organization_member.dto.UpdateOrganizationMemberRequest;
+import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
 import com.example.backend.roles.enums.RoleScope;
 import com.example.backend.users.entities.User;
 import com.example.backend.organizations.organization.entities.Organization;
@@ -18,6 +21,8 @@ import com.example.backend.roles.repositories.RoleRepository;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import com.example.backend.users.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrganizationMemberService {
@@ -76,6 +81,49 @@ public class OrganizationMemberService {
 
         organizationMemberRepository.save(member);
 
+        return toResponse(member);
+    }
+
+    //GET ALL ORGANIZATION MEMBER
+    public List<OrganizationMemberResponse> getAllOrganizationMembers(Long organizationId) {
+        if (!organizationRepository.existsById(organizationId)){
+            throw new OrganizationNotFoundException(organizationId);
+        }
+        return organizationMemberRepository.findAllByOrganizationId(organizationId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    //UPDATE ORGANIZATION MEMBER ROLE
+    public OrganizationMemberResponse updateOrganizationMember(
+            Long organizationId,
+            Long userId,
+            UpdateOrganizationMemberRequest request
+    ){
+        if (!organizationRepository.existsById(organizationId)){
+            throw new OrganizationNotFoundException(organizationId);
+        }
+
+        OrganizationMember member = organizationMemberRepository
+                .findByOrganizationIdAndUserId(organizationId, userId)
+                .orElseThrow(() ->
+                        new OrganizationMemberNotFoundException(
+                                organizationId,
+                                userId
+                        )
+                );
+
+        Role role = roleRepository.findById(request.getRoleId())
+                .orElseThrow(() -> new RoleNotFoundException(request.getRoleId()));
+
+        if (RoleScope.ORGANIZATION != role.getScope()){
+            throw new InvalidRoleScopeException(role.getId());
+        }
+
+        member.setRole(role);
+
+        organizationMemberRepository.save(member);
         return toResponse(member);
     }
 

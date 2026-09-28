@@ -3,8 +3,10 @@ package com.example.backend.common.exception;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
 import com.example.backend.organizations.organization_member.exceptions.InvalidRoleScopeException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberAlreadyExistException;
+import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
 import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
+import jakarta.persistence.Enumerated;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -49,6 +51,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidRoleScopeException(
             InvalidRoleScopeException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(OrganizationMemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleOrganizationMemberNotFoundException(
+            OrganizationMemberNotFoundException exception
     ){
         return exception.getMessage();
     }
