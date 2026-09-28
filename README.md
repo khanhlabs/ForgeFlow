@@ -1,5 +1,6 @@
-# ForgeFlow
-
+# ForgeFlow (In process)  
+### Develop by ***Pham Gia Khanh***
+---
 **ForgeFlow** is a production-style project management platform built as an end-to-end engineering lab for practicing and validating modern **Software Engineering, DevOps, Cloud, Kubernetes, CI/CD, GitOps, Security, and Observability** skills.
 
 The project is intentionally developed from the ground up, starting from a modular backend and relational database and progressively evolving into a containerized, automated, observable, and Kubernetes-based production environment.
@@ -62,70 +63,6 @@ Security & Reliability
 ```
 
 Each layer is implemented, tested, deployed, and intentionally broken where possible to understand how the system behaves under real-world conditions.
-
----
-
-## Core Features
-
-### Authentication & Authorization
-
-* User registration and login
-* JWT authentication
-* Refresh token flow
-* Password hashing
-* OAuth2 authentication
-* Role-Based Access Control (RBAC)
-* Project-level permissions
-* Organization-level permissions
-* Token expiration and rotation
-* Logout and token invalidation
-
-### Project Management
-
-* Organizations
-* Projects
-* Project members
-* Teams
-* Issues
-* Comments
-* Labels
-* Priorities
-* Sprints
-* Issue assignment
-* Issue status management
-* Activity history
-* Audit logs
-
-### Search
-
-* Full-text issue search
-* Search by title and description
-* Filtering
-* Sorting
-* Pagination
-* Elasticsearch-based search
-
-### File Management
-
-* Issue attachments
-* Amazon S3 storage
-* Presigned URLs
-* Private object storage
-* CloudFront integration
-
-### Notifications
-
-* In-app notifications
-* Asynchronous event processing
-* Email/event-based notification flow
-
-### Dashboard
-
-* Project statistics
-* Issue statistics
-* Sprint progress
-* Deployment information
-* Application/system metrics
 
 ---
 
@@ -378,19 +315,6 @@ AWS
 └── Kubernetes Infrastructure
 ```
 
-Terraform is used to practice:
-
-* Providers
-* Resources
-* Variables
-* Outputs
-* Modules
-* State management
-* Remote state
-* Resource dependencies
-* Environment management
-* Infrastructure lifecycle
-
 ---
 
 # Observability
@@ -424,18 +348,6 @@ Important metrics include:
 * Database connection pool
 * Kubernetes pod restarts
 * Container resource usage
-
-Example alerts:
-
-```text
-High CPU
-High Memory
-High Error Rate
-High Latency
-Pod CrashLoopBackOff
-Database Connection Exhaustion
-Application Unavailability
-```
 
 ---
 
@@ -480,32 +392,6 @@ Testing is implemented at multiple levels.
      Unit       Integration    E2E
      Tests        Tests        Tests
 ```
-
-Examples:
-
-### Unit Tests
-
-* Service logic
-* Validation
-* Utility functions
-* Security logic
-
-### Integration Tests
-
-* REST API
-* PostgreSQL
-* Redis
-* Elasticsearch
-* Authentication
-* Database transactions
-
-### End-to-End Tests
-
-* User registration
-* Login
-* Project creation
-* Issue lifecycle
-* Deployment workflow
 
 ---
 
@@ -553,163 +439,6 @@ CI/CD
 └── Rollback
 ```
 
-The objective is to understand:
-
-> **What failed → Why it failed → How to diagnose it → How to fix it → How to prevent it**
-
----
-
-# Learning / Engineering Checklist
-
-The project is developed progressively instead of implementing the entire architecture at once.
-
-## Phase 1 — Backend Fundamentals
-
-* [ ] Spring Boot
-* [ ] REST API
-* [ ] PostgreSQL
-* [ ] JPA
-* [ ] Hibernate
-* [ ] Database relationships
-* [ ] Transactions
-* [ ] Validation
-* [ ] Exception handling
-* [ ] Pagination
-* [ ] Database indexing
-* [ ] Flyway
-
-## Phase 2 — Security
-
-* [ ] Spring Security
-* [ ] Authentication
-* [ ] Authorization
-* [ ] JWT
-* [ ] Refresh tokens
-* [ ] RBAC
-* [ ] OAuth2
-* [ ] Password security
-* [ ] CORS
-* [ ] CSRF
-* [ ] Rate limiting
-
-## Phase 3 — Backend Advanced
-
-* [ ] Redis
-* [ ] Caching
-* [ ] Elasticsearch
-* [ ] Async processing
-* [ ] Message queues
-* [ ] WebSocket
-* [ ] S3
-* [ ] Presigned URLs
-
-## Phase 4 — Testing
-
-* [ ] JUnit
-* [ ] Mockito
-* [ ] Unit testing
-* [ ] Integration testing
-* [ ] API testing
-* [ ] E2E testing
-* [ ] Testcontainers
-
-## Phase 5 — Containerization
-
-* [ ] Dockerfile
-* [ ] Multi-stage builds
-* [ ] Docker networking
-* [ ] Docker volumes
-* [ ] Docker Compose
-* [ ] Health checks
-* [ ] Container optimization
-
-## Phase 6 — AWS
-
-* [ ] IAM
-* [ ] VPC
-* [ ] Subnets
-* [ ] Route tables
-* [ ] Internet Gateway
-* [ ] NAT Gateway
-* [ ] Security Groups
-* [ ] EC2
-* [ ] RDS
-* [ ] S3
-* [ ] ECR
-* [ ] ALB
-* [ ] CloudFront
-* [ ] Route 53
-* [ ] SNS
-* [ ] SQS
-
-## Phase 7 — CI/CD
-
-* [ ] Git workflows
-* [ ] Branching strategy
-* [ ] Pull Requests
-* [ ] Code Review
-* [ ] CI
-* [ ] Automated tests
-* [ ] Docker image build
-* [ ] Image registry
-* [ ] Security scanning
-* [ ] Automated deployment
-* [ ] Rollback
-
-## Phase 8 — Kubernetes
-
-* [ ] Pods
-* [ ] Deployments
-* [ ] Services
-* [ ] Ingress
-* [ ] ConfigMaps
-* [ ] Secrets
-* [ ] Namespaces
-* [ ] RBAC
-* [ ] Resource requests
-* [ ] Resource limits
-* [ ] Probes
-* [ ] HPA
-* [ ] Rolling updates
-* [ ] Rollbacks
-
-## Phase 9 — GitOps
-
-* [ ] Argo CD
-* [ ] Declarative configuration
-* [ ] Application manifests
-* [ ] App of Apps
-* [ ] Auto Sync
-* [ ] Health checks
-* [ ] Rollback
-* [ ] Environment separation
-
-## Phase 10 — Observability
-
-* [ ] Prometheus
-* [ ] Grafana
-* [ ] Loki
-* [ ] Alertmanager
-* [ ] OpenTelemetry
-* [ ] Metrics
-* [ ] Logs
-* [ ] Traces
-* [ ] Alerting
-* [ ] Incident troubleshooting
-
-## Phase 11 — Infrastructure & DevSecOps
-
-* [ ] Terraform
-* [ ] Terraform modules
-* [ ] Terraform state
-* [ ] Remote backend
-* [ ] IAM least privilege
-* [ ] SAST
-* [ ] Dependency scanning
-* [ ] Container scanning
-* [ ] Kubernetes security
-* [ ] Secret management
-
 ---
 
 # Development Philosophy
@@ -739,43 +468,6 @@ Failure scenarios are part of the learning process.
 ### 6. Document engineering decisions
 
 Important architectural and infrastructure decisions should be documented together with their trade-offs.
-
----
-
-# Project Structure
-
-The repository is expected to evolve toward:
-
-```text
-forgeflow/
-│
-├── backend/
-│   ├── src/
-│   ├── Dockerfile
-│   └── pom.xml
-│
-├── frontend/
-│   ├── src/
-│   └── Dockerfile
-│
-├── infra/
-│   └── terraform/
-│
-├── deploy/
-│   ├── docker/
-│   └── kubernetes/
-│
-├── .github/
-│   └── workflows/
-│
-├── docs/
-│   ├── architecture/
-│   ├── decisions/
-│   ├── troubleshooting/
-│   └── runbooks/
-│
-└── README.md
-```
 
 ---
 
