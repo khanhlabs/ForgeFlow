@@ -20,6 +20,7 @@ import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.roles.repositories.RoleRepository;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import com.example.backend.users.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -128,6 +129,7 @@ public class OrganizationMemberService {
     }
 
     //DELETE ORGANIZATION MEMBER
+    @Transactional
     public void deleteOrganizationMemberById(Long organizationId, Long userId){
         if (!organizationRepository.existsById(organizationId)){
             throw new OrganizationNotFoundException(organizationId);
