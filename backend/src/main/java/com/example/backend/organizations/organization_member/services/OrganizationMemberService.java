@@ -127,6 +127,17 @@ public class OrganizationMemberService {
         return toResponse(member);
     }
 
+    //DELETE ORGANIZATION MEMBER
+    public void deleteOrganizationMemberById(Long organizationId, Long userId){
+        if (!organizationRepository.existsById(organizationId)){
+            throw new OrganizationNotFoundException(organizationId);
+        } else if (!organizationMemberRepository.existsByOrganizationIdAndUserId(organizationId, userId)) {
+            throw new OrganizationMemberNotFoundException(organizationId, userId);
+        }
+
+        organizationMemberRepository.deleteByOrganizationIdAndUserId(organizationId, userId);
+    }
+
     //TO RESPONSE
     public OrganizationMemberResponse toResponse(
             OrganizationMember member

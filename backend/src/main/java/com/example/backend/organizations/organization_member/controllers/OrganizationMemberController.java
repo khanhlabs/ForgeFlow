@@ -21,6 +21,7 @@ public class OrganizationMemberController {
         this.organizationMemberService = organizationMemberService;
     }
 
+    //ADD ORGANIZATION MEMBER
     @PostMapping("/{organizationId}/members")
     @ResponseStatus(HttpStatus.CREATED)
     public OrganizationMemberResponse addMember(
@@ -30,6 +31,7 @@ public class OrganizationMemberController {
         return organizationMemberService.addOrganizationMember(organizationId, request);
     }
 
+    //GET ALL ORGANIZATION MEMBER
     @GetMapping("/{organizationId}/members")
     public List<OrganizationMemberResponse> getAllMembers(
             @PathVariable Long organizationId
@@ -37,6 +39,7 @@ public class OrganizationMemberController {
         return organizationMemberService.getAllOrganizationMembers(organizationId);
     }
 
+    //UPDATE ORGANIZATION ROLE
     @PatchMapping("/{organizationId}/members/{userId}")
     public OrganizationMemberResponse updateMember(
             @PathVariable Long organizationId,
@@ -44,6 +47,15 @@ public class OrganizationMemberController {
             @Valid @RequestBody UpdateOrganizationMemberRequest request
     ){
         return organizationMemberService.updateOrganizationMember(organizationId, userId, request);
+    }
+
+    //DELETE ORGANIZATION MEMBER
+    @DeleteMapping("/{organizationId}/members/{userId}")
+    public void deleteOrganizationMember(
+            @PathVariable Long organizationId,
+            @PathVariable Long userId
+    ){
+        organizationMemberService.deleteOrganizationMemberById(organizationId, userId);
     }
 
 }

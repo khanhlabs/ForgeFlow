@@ -26,5 +26,9 @@ public interface OrganizationMemberRepository extends JpaRepository<Organization
             AND om.user.id = :userId
    \s""")
     Optional<OrganizationMember> findByOrganizationIdAndUserId(Long organizationId, Long userId);
+
+    void deleteByOrganizationIdAndUserId(Long organizationId, Long userId);
+
+    boolean existsByOrganizationIdAndUserId(Long organizationId, Long userId);
 }
 
