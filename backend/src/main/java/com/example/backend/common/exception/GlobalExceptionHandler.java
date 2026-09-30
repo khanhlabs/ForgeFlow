@@ -1,5 +1,7 @@
 package com.example.backend.common.exception;
 
+import com.example.backend.organizations.organization.exceptions.OrganizationHasMemberException;
+import com.example.backend.organizations.organization.exceptions.OrganizationHasProjectException;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
 import com.example.backend.projects.project.exceptions.OrganizationProjectNotFoundException;
 import com.example.backend.projects.project.exceptions.ProjectNotFoundException;
@@ -76,6 +78,22 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleOrganizationProjectNotFoundException(
             OrganizationProjectNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(OrganizationHasMemberException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleExistingOrganizationMemberException(
+            OrganizationHasMemberException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(OrganizationHasProjectException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleExistingOrganizationProjectMemberException(
+            OrganizationHasProjectException exception
     ){
         return exception.getMessage();
     }
