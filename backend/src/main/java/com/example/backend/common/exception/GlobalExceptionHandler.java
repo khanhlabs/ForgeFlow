@@ -1,13 +1,15 @@
 package com.example.backend.common.exception;
 
+import com.example.backend.organizations.organization.exceptions.OrganizationAlreadyExistException;
 import com.example.backend.organizations.organization.exceptions.OrganizationHasMemberException;
 import com.example.backend.organizations.organization.exceptions.OrganizationHasProjectException;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
 import com.example.backend.projects.project.exceptions.OrganizationProjectNotFoundException;
 import com.example.backend.projects.project.exceptions.ProjectNotFoundException;
-import com.example.backend.organizations.organization_member.exceptions.InvalidRoleScopeException;
+import com.example.backend.organizations.organization_member.exceptions.InvalidOrganizationRoleScopeException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberAlreadyExistException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
+import com.example.backend.projects.project_members.exceptions.*;
 import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -50,10 +52,10 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
-    @ExceptionHandler(InvalidRoleScopeException.class)
+    @ExceptionHandler(InvalidOrganizationRoleScopeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidRoleScopeException(
-            InvalidRoleScopeException exception
+            InvalidOrganizationRoleScopeException exception
     ){
         return exception.getMessage();
     }
@@ -94,6 +96,53 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleExistingOrganizationProjectMemberException(
             OrganizationHasProjectException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(OrganizationAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleOrganizationAlreadyExistException(
+            OrganizationAlreadyExistException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(AlreadyExistProjectMemberException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleAlreadyExistProjectMemberException(
+            AlreadyExistProjectMemberException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(InvalidProjectRoleScopeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleInvalidProjectRoleScopeException(
+            InvalidProjectRoleScopeException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(ProjectMemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleProjectMemberNotFoundException(
+            ProjectMemberNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(MemberNotFoundInProjectException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleMemberNotFoundInProjectException(
+            MemberNotFoundInProjectException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(NotEmptyProjectException.class)
+    public String handleNotEmptyProjectException(
+            NotEmptyProjectException exception
     ){
         return exception.getMessage();
     }

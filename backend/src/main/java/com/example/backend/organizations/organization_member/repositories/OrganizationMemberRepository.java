@@ -1,14 +1,23 @@
 package com.example.backend.organizations.organization_member.repositories;
 
+import com.example.backend.organizations.organization_member.dto.OrganizationMemberResponse;
 import com.example.backend.organizations.organization_member.entities.OrganizationMember;
 import com.example.backend.organizations.organization_member.entities.OrganizationMemberId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrganizationMemberRepository extends JpaRepository<OrganizationMember, OrganizationMemberId> {
+
+    @Query("""
+        SELECT om FROM OrganizationMember om
+         JOIN FETCH om.user
+         JOIN FETCH om.role
+    """)
+    List<OrganizationMember> getAllOrganizationMembers();
 
     @Query("""
         SELECT om FROM OrganizationMember om
@@ -30,5 +39,7 @@ public interface OrganizationMemberRepository extends JpaRepository<Organization
     void deleteByOrganizationIdAndUserId(Long organizationId, Long userId);
 
     boolean existsByOrganizationIdAndUserId(Long organizationId, Long userId);
+
+    boolean existsByOrganizationId(Long organizationId);
 }
 

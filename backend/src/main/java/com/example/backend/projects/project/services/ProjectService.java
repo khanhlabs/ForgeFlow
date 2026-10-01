@@ -10,6 +10,8 @@ import com.example.backend.projects.project.dto.CreateProjectRequest;
 import com.example.backend.projects.project.dto.ProjectResponse;
 import com.example.backend.projects.project.entities.Project;
 import com.example.backend.projects.project.repositories.ProjectRepository;
+import com.example.backend.projects.project_members.exceptions.NotEmptyProjectException;
+import com.example.backend.projects.project_members.repositories.ProjectMemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,13 +21,15 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final OrganizationRepository organizationRepository;
+    private final ProjectMemberRepository projectMemberRepository;
 
     public ProjectService(
             ProjectRepository projectRepository,
-            OrganizationRepository organizationRepository
-    ) {
+            OrganizationRepository organizationRepository,
+            ProjectMemberRepository projectMemberRepository) {
         this.projectRepository = projectRepository;
         this.organizationRepository = organizationRepository;
+        this.projectMemberRepository = projectMemberRepository;
     }
 
     //CREATE PROJECT
@@ -96,6 +100,10 @@ public class ProjectService {
     public void deleteProject(Long projectId) {
         if (!projectRepository.existsById(projectId)) {
             throw new ProjectNotFoundException(projectId);
+        }
+
+        if (projectMemberRepository.existsByProjectId(projectId)){
+            throw new NotEmptyProjectException(projectId);
         }
 
         projectRepository.deleteById(projectId);
