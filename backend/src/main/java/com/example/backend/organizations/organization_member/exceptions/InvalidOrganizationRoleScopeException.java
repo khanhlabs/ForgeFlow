@@ -1,8 +1,8 @@
 package com.example.backend.organizations.organization_member.exceptions;
 
-public class InvalidRoleScopeException extends RuntimeException
+public class InvalidOrganizationRoleScopeException extends RuntimeException
 {
-    public InvalidRoleScopeException(long roleId)
+    public InvalidOrganizationRoleScopeException(long roleId)
     {
         super("Role " + roleId + " is not an organization role.");
     }

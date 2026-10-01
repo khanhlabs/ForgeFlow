@@ -1,6 +1,5 @@
 package com.example.backend.organizations.organization_member.services;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.example.backend.organizations.organization_member.dto.UpdateOrganizationMemberRequest;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
 import com.example.backend.roles.enums.RoleScope;
@@ -12,7 +11,7 @@ import com.example.backend.organizations.organization_member.dto.CreateOrganizat
 import com.example.backend.organizations.organization_member.dto.OrganizationMemberResponse;
 import com.example.backend.organizations.organization_member.entities.OrganizationMember;
 import com.example.backend.organizations.organization_member.entities.OrganizationMemberId;
-import com.example.backend.organizations.organization_member.exceptions.InvalidRoleScopeException;
+import com.example.backend.organizations.organization_member.exceptions.InvalidOrganizationRoleScopeException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberAlreadyExistException;
 import com.example.backend.organizations.organization_member.repositories.OrganizationMemberRepository;
 import com.example.backend.roles.entities.Role;
@@ -70,7 +69,7 @@ public class OrganizationMemberService {
         }
 
         if(RoleScope.ORGANIZATION != role.getScope()){
-            throw new InvalidRoleScopeException(role.getId());
+            throw new InvalidOrganizationRoleScopeException(role.getId());
         }
 
         OrganizationMember member = new OrganizationMember();
@@ -86,7 +85,15 @@ public class OrganizationMemberService {
     }
 
     //GET ALL ORGANIZATION MEMBER
-    public List<OrganizationMemberResponse> getAllOrganizationMembers(Long organizationId) {
+    public List<OrganizationMemberResponse> getAllOrganizationMembers(){
+        return organizationMemberRepository.getAllOrganizationMembers()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    //GET ALL ORGANIZATION MEMBER BY ORGANIZATION ID
+    public List<OrganizationMemberResponse> getAllOrganizationMembersByOrganizationId(Long organizationId) {
         if (!organizationRepository.existsById(organizationId)){
             throw new OrganizationNotFoundException(organizationId);
         }
@@ -119,7 +126,7 @@ public class OrganizationMemberService {
                 .orElseThrow(() -> new RoleNotFoundException(request.getRoleId()));
 
         if (RoleScope.ORGANIZATION != role.getScope()){
-            throw new InvalidRoleScopeException(role.getId());
+            throw new InvalidOrganizationRoleScopeException(role.getId());
         }
 
         member.setRole(role);

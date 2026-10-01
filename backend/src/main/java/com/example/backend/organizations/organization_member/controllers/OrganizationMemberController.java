@@ -32,11 +32,17 @@ public class OrganizationMemberController {
     }
 
     //GET ALL ORGANIZATION MEMBER
+    @GetMapping("/members")
+    public List<OrganizationMemberResponse> getMembers(){
+        return organizationMemberService.getAllOrganizationMembers();
+    }
+
+    //GET ALL ORGANIZATION MEMBER BY ORGANIZATION ID
     @GetMapping("/{organizationId}/members")
-    public List<OrganizationMemberResponse> getAllMembers(
+    public List<OrganizationMemberResponse> getAllMembersByOrganizationId(
             @PathVariable Long organizationId
     ) {
-        return organizationMemberService.getAllOrganizationMembers(organizationId);
+        return organizationMemberService.getAllOrganizationMembersByOrganizationId(organizationId);
     }
 
     //UPDATE ORGANIZATION ROLE
