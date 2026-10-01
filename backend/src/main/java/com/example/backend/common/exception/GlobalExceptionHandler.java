@@ -11,6 +11,9 @@ import com.example.backend.organizations.organization_member.exceptions.Organiza
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
 import com.example.backend.projects.project_members.exceptions.*;
 import com.example.backend.roles.exceptions.RoleNotFoundException;
+import com.example.backend.sprints.exceptions.InvalidSprintName;
+import com.example.backend.sprints.exceptions.NotEmptySprintException;
+import com.example.backend.sprints.exceptions.SprintNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -143,6 +146,30 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotEmptyProjectException.class)
     public String handleNotEmptyProjectException(
             NotEmptyProjectException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(InvalidSprintName.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleInvalidSprintName(
+            InvalidSprintName exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(SprintNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleSprintNotFoundException(
+            SprintNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(NotEmptySprintException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleNotEmptySprintException(
+            NotEmptySprintException exception
     ){
         return exception.getMessage();
     }
