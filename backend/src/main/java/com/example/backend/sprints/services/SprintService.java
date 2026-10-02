@@ -30,13 +30,12 @@ public class SprintService {
 
     //CREATE SPRINT
     public SprintResponse createSprint(
-            Long projectId,
             CreateSprintRequest request
     ) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(()  -> new ProjectNotFoundException(projectId));
+        Project project = projectRepository.findById(request.getProjectId())
+                .orElseThrow(()  -> new ProjectNotFoundException(request.getProjectId()));
 
-        if (sprintRepository.existsByProjectIdAndName(projectId, request.getName())) {
+        if (sprintRepository.existsByProjectIdAndName(request.getProjectId(), request.getName())) {
             throw new InvalidSprintName(request.getName());
         }
 
@@ -54,7 +53,7 @@ public class SprintService {
 
     //GET ALL SPRINT
     public List<SprintResponse> getAllSprints() {
-        return sprintRepository.findAll()
+        return sprintRepository.getAllSprints()
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -62,7 +61,7 @@ public class SprintService {
 
     //GET SPRINT BY ID
     public SprintResponse getSprintById(Long sprintId) {
-        Sprint sprint = sprintRepository.findById(sprintId)
+        Sprint sprint = sprintRepository.getBySprintId(sprintId)
                 .orElseThrow(()  -> new SprintNotFoundException(sprintId));
 
         return toResponse(sprint);
@@ -70,24 +69,22 @@ public class SprintService {
 
     //UPDATE SPRINT NAME
     public SprintResponse updateSprintName(
-            Long projectId,
             Long sprintId,
+            Long projectId,
             UpdateSprintRequest request
     ){
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(()  -> new ProjectNotFoundException(projectId));
-
-        if (!sprintRepository.existsById(sprintId)) {
-            throw new SprintNotFoundException(sprintId);
+        if (!projectRepository.existsById(projectId)) {
+            throw new ProjectNotFoundException(projectId);
         }
+
+        Sprint sprint = sprintRepository.findByProjectIdAndId(projectId, sprintId)
+                        .orElseThrow(()  -> new SprintNotFoundException(sprintId));
 
         if (sprintRepository.existsByProjectIdAndName(projectId, request.getName())) {
             throw new InvalidSprintName(request.getName());
         }
 
-        Sprint sprint = new Sprint();
         sprint.setName(request.getName());
-        sprint.setProject(project);
 
         sprintRepository.save(sprint);
 
