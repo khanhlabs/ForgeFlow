@@ -14,7 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "labels")
+@Table(name = "labels", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"project_id", "name"}),
+        @UniqueConstraint(columnNames = {"id", "project_id"})
+})
 public class Label {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

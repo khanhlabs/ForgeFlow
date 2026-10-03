@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "roles")
+@Table(name = "roles", uniqueConstraints = @UniqueConstraint(columnNames = {"name", "scope"}))
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

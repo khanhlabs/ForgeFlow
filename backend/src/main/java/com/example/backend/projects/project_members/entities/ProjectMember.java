@@ -2,7 +2,7 @@ package com.example.backend.projects.project_members.entities;
 
 import com.example.backend.projects.project.entities.Project;
 import com.example.backend.roles.entities.Role;
-import com.example.backend.tasks.task_assignee.entities.TaskAssignee;
+import com.example.backend.tasks.task.entities.Task;
 import com.example.backend.users.entities.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +35,4 @@ public class ProjectMember {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "projectMember")
-    private Set<TaskAssignee> taskAssignees = new LinkedHashSet<>();
 }

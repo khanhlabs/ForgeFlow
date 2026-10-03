@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -33,7 +34,7 @@ public class Attachment {
 
     @Size(max = 500)
     @NotNull
-    @Column(name = "object_key", nullable = false, length = 500)
+    @Column(name = "object_key", unique = true, nullable = false, length = 500)
     private String objectKey;
 
     @Size(max = 100)
@@ -51,6 +52,7 @@ public class Attachment {
     private User uploadedBy;
 
     @NotNull
+    @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
