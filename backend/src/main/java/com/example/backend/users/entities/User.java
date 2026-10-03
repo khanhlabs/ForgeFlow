@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
@@ -28,7 +29,7 @@ public class User {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "full_name", nullable = false, length = 50)
+    @Column(name = "full_name", unique = true, nullable = false, length = 50)
     private String fullName;
 
     @Size(max = 254)
@@ -42,6 +43,7 @@ public class User {
     private String passwordHash;
 
     @NotNull
+    @CreationTimestamp
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -60,6 +62,9 @@ public class User {
 
     @OneToMany(mappedBy = "createdBy")
     private Set<Task> tasks = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "assignee")
+    private Set<Task> assignedTasks = new LinkedHashSet<>();
 
 
 }
