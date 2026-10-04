@@ -4,14 +4,16 @@ import com.example.backend.organizations.organization.entities.Organization;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
 import com.example.backend.projects.project.dto.UpdateProjectRequest;
 import com.example.backend.projects.project.exceptions.OrganizationProjectNotFoundException;
+import com.example.backend.projects.project.exceptions.ProjectHasSprintException;
 import com.example.backend.projects.project.exceptions.ProjectNotFoundException;
 import com.example.backend.organizations.organization.repositories.OrganizationRepository;
 import com.example.backend.projects.project.dto.CreateProjectRequest;
 import com.example.backend.projects.project.dto.ProjectResponse;
 import com.example.backend.projects.project.entities.Project;
 import com.example.backend.projects.project.repositories.ProjectRepository;
-import com.example.backend.projects.project_members.exceptions.NotEmptyProjectException;
+import com.example.backend.projects.project.exceptions.ProjectHasMemberException;
 import com.example.backend.projects.project_members.repositories.ProjectMemberRepository;
+import com.example.backend.sprints.repositories.SprintRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +24,18 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final OrganizationRepository organizationRepository;
     private final ProjectMemberRepository projectMemberRepository;
+    private final SprintRepository sprintRepository;
 
     public ProjectService(
             ProjectRepository projectRepository,
             OrganizationRepository organizationRepository,
-            ProjectMemberRepository projectMemberRepository) {
+            ProjectMemberRepository projectMemberRepository,
+            SprintRepository sprintRepository
+            ) {
         this.projectRepository = projectRepository;
         this.organizationRepository = organizationRepository;
         this.projectMemberRepository = projectMemberRepository;
+        this.sprintRepository = sprintRepository;
     }
 
     //CREATE PROJECT
@@ -103,7 +109,11 @@ public class ProjectService {
         }
 
         if (projectMemberRepository.existsByProjectId(projectId)){
-            throw new NotEmptyProjectException(projectId);
+            throw new ProjectHasMemberException(projectId);
+        }
+
+        if (sprintRepository.existsByProjectId(projectId)){
+            throw new ProjectHasSprintException(projectId);
         }
 
         projectRepository.deleteById(projectId);

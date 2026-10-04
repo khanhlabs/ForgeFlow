@@ -5,6 +5,8 @@ import com.example.backend.organizations.organization.exceptions.OrganizationHas
 import com.example.backend.organizations.organization.exceptions.OrganizationHasProjectException;
 import com.example.backend.organizations.organization.exceptions.OrganizationNotFoundException;
 import com.example.backend.projects.project.exceptions.OrganizationProjectNotFoundException;
+import com.example.backend.projects.project.exceptions.ProjectHasMemberException;
+import com.example.backend.projects.project.exceptions.ProjectHasSprintException;
 import com.example.backend.projects.project.exceptions.ProjectNotFoundException;
 import com.example.backend.organizations.organization_member.exceptions.InvalidOrganizationRoleScopeException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberAlreadyExistException;
@@ -135,6 +137,14 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
+    @ExceptionHandler(ProjectHasMemberException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleProjectHasMemberException(
+            ProjectHasMemberException exception
+    ){
+        return exception.getMessage();
+    }
+
     @ExceptionHandler(MemberNotFoundInProjectException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleMemberNotFoundInProjectException(
@@ -143,9 +153,10 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
-    @ExceptionHandler(NotEmptyProjectException.class)
-    public String handleNotEmptyProjectException(
-            NotEmptyProjectException exception
+    @ExceptionHandler(ProjectHasSprintException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleProjectHasSprintException(
+            ProjectHasSprintException exception
     ){
         return exception.getMessage();
     }
