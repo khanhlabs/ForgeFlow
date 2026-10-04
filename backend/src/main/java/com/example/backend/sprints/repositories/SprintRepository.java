@@ -33,4 +33,8 @@ public interface SprintRepository extends JpaRepository<Sprint, Long> {
         AND s.id = :id
     """)
     Optional<Sprint> findByProjectIdAndId(Long projectId, Long id);
+
+    boolean existsByProjectId(Long projectId);
+
+    List<Sprint> findByProjectId(Long projectId);
 }

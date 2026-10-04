@@ -67,6 +67,15 @@ public class SprintService {
         return toResponse(sprint);
     }
 
+    //GET SPRINT BY PROJECT
+    public List<SprintResponse> getPrintByProject(Long projectId) {
+       return sprintRepository.findByProjectId(projectId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+
     //UPDATE SPRINT NAME
     public SprintResponse updateSprintName(
             Long sprintId,

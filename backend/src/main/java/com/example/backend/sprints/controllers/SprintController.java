@@ -41,6 +41,12 @@ public class SprintController {
         return sprintService.getSprintById(sprintId);
     }
 
+    //GET SPRINT BY PROJECT
+    @GetMapping("/projects/{projectId}")
+    public List<SprintResponse> getSprintsByProjectId(@PathVariable Long projectId) {
+        return sprintService.getPrintByProject(projectId);
+    }
+
     //UPDATE SPRINT NAME
     @PatchMapping("/{sprintId}/projects/{projectId}")
     public SprintResponse updateSprint(
