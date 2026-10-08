@@ -36,5 +36,10 @@ public interface SprintRepository extends JpaRepository<Sprint, Long> {
 
     boolean existsByProjectId(Long projectId);
 
+    @Query("""
+        SELECT s FROM Sprint s
+        JOIN FETCH s.project
+        WHERE s.project.id = :projectId
+    """)
     List<Sprint> findByProjectId(Long projectId);
 }
