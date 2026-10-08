@@ -1,508 +1,201 @@
-# ForgeFlow (In process)  
-### Develop by ***Pham Gia Khanh***
----
-**ForgeFlow** is a production-style project management platform built as an end-to-end engineering lab for practicing and validating modern **Software Engineering, DevOps, Cloud, Kubernetes, CI/CD, GitOps, Security, and Observability** skills.
+# ForgeFlow
 
-The project is intentionally developed from the ground up, starting from a modular backend and relational database and progressively evolving into a containerized, automated, observable, and Kubernetes-based production environment.
+**In Process — Developed by Pham Gia Khanh**
 
-> **Goal:** Build one system that forces me to understand, implement, deploy, troubleshoot, and explain the technologies and engineering practices used in my Software Engineering and DevOps skillset.
+ForgeFlow is a production-style **project management platform** built as an engineering project for practicing **Software Engineering, DevOps, Cloud, Kubernetes, CI/CD, GitOps, Security, Observability, and AI Agent Engineering**.
+
+The project is being developed from the ground up and is **currently in active development**. Features and infrastructure are introduced incrementally as the underlying concepts are implemented and understood.
+
+> **Goal:** Build one system that can be developed, deployed, observed, secured, troubleshot, and explained through real implementation rather than memorization.
 
 ---
 
 ## What is ForgeFlow?
 
-ForgeFlow is a collaborative project and issue management platform inspired by tools such as Jira and GitLab Issues.
+ForgeFlow is a collaborative project management platform inspired by tools such as Jira and GitLab.
 
-Users can:
+Planned core features include:
 
-* Create and manage projects
-* Manage project members and roles
-* Create, assign, prioritize, and track issues
-* Organize work using labels and sprints
-* Comment on issues
-* Upload attachments
-* Search issues and project content
-* Receive notifications
-* View project activity and audit logs
-* Monitor application deployments and system health
+* Organizations and projects
+* Members, roles, and permissions
+* Tasks, subtasks, labels, and sprints
+* Comments and attachments
+* Search
+* Notifications
+* Activity and audit information
 
-The application is also designed to serve as a realistic environment for implementing infrastructure and DevOps workflows.
+ForgeFlow will also include an **AI Agent** capable of understanding project context and assisting with project-management workflows.
 
----
+The AI Agent will be able to:
 
-## Engineering Goals
+* Analyze project, task, sprint, and team data
+* Generate tasks and subtasks
+* Assist with sprint planning
+* Analyze project progress
+* Propose changes through controlled tools
 
-ForgeFlow is not only a CRUD application.
-
-The main objective is to progressively build the system through the following engineering layers:
+AI-generated changes will follow a **human-in-the-loop** workflow:
 
 ```text
-Application
-    ↓
-Backend Engineering
-    ↓
-Database & Data Management
-    ↓
-Security
-    ↓
-Testing
-    ↓
-Containerization
-    ↓
-Cloud Infrastructure
-    ↓
-CI/CD
-    ↓
-Kubernetes
-    ↓
-GitOps
-    ↓
-Observability
-    ↓
-Security & Reliability
+User Request
+     ↓
+AI Agent
+     ↓
+Analyze Context
+     ↓
+Generate Action Plan
+     ↓
+User Review
+     ↓
+Confirm
+     ↓
+Application Authorization
+     ↓
+Execute
 ```
 
-Each layer is implemented, tested, deployed, and intentionally broken where possible to understand how the system behaves under real-world conditions.
+The AI Agent will **not bypass application authorization or directly modify the database**.
 
 ---
 
-# Technology Stack
+## Technology Stack
 
-## Backend
+### Backend
 
 * Java
 * Spring Boot
-* Spring Web
 * Spring Security
-* Spring Data JPA
-* Hibernate
-* Bean Validation
-* JWT
-* OAuth2
-* WebSocket
-* JUnit
-* Mockito
-
-## Database & Data
-
+* Spring Data JPA / Hibernate
 * PostgreSQL
 * Flyway
 * Redis
 * Elasticsearch
+* JWT / OAuth2
+* WebSocket
+* JUnit / Mockito
 
-## Frontend
+### Frontend
 
 * React
 * Vite
 * JavaScript / TypeScript
-* REST API
-* WebSocket
 
-## Containerization
+### AI
 
-* Docker
-* Docker Compose
-* Multi-stage Docker builds
-* Container health checks
+* AI Agent
+* Tool Calling
+* Context-aware workflows
+* Human-in-the-loop confirmation
 
-## CI/CD
+### DevOps / Cloud
 
-* Git
-* GitHub / GitLab
-* CI pipelines
-* Automated testing
-* Docker image builds
-* Container image scanning
-* Container registry
-* Automated deployment
-
-## Cloud
-
-* AWS IAM
-* AWS VPC
-* Amazon EC2
-* Amazon RDS
-* Amazon S3
-* Amazon ECR
-* Application Load Balancer
-* CloudFront
-* Route 53
-* SNS / SQS
-
-## Infrastructure as Code
-
+* Docker / Docker Compose
+* GitHub / GitLab CI
+* AWS
 * Terraform
-
-## Kubernetes
-
 * Kubernetes
-* Deployments
-* Services
-* Ingress
-* ConfigMaps
-* Secrets
-* RBAC
-* Resource Requests / Limits
-* Liveness Probes
-* Readiness Probes
-* Horizontal Pod Autoscaler
-* Rolling Updates
-* Rollbacks
-
-## GitOps
-
 * Argo CD
-* Declarative Kubernetes manifests
-* Automated synchronization
-* Application health monitoring
-* Deployment rollback
-
-## Observability
-
-* Prometheus
-* Grafana
+* Prometheus / Grafana
 * Loki
-* Alertmanager
 * OpenTelemetry
 
-## Security / DevSecOps
-
-* Spring Security
-* RBAC
-* IAM least privilege
-* Dependency scanning
-* Container image scanning
-* Secret management
-* SAST
-* OWASP security practices
-
 ---
 
-# Architecture
+## Architecture
 
-The target architecture evolves throughout the project.
-
-The initial version is intentionally simple:
+The current architecture is intentionally simple and will evolve as the project grows.
 
 ```text
-                  ┌──────────────┐
-                  │   Frontend   │
-                  │    React     │
-                  └──────┬───────┘
-                         │
-                         ▼
-                  ┌──────────────┐
-                  │ Spring Boot  │
-                  │    API       │
-                  └──────┬───────┘
-                         │
-              ┌──────────┼──────────┐
-              │          │          │
-              ▼          ▼          ▼
-         PostgreSQL    Redis   Elasticsearch
-```
-
-The infrastructure will progressively evolve toward:
-
-```text
-                         Internet
-                            │
-                     Route 53 / DNS
-                            │
-                     CloudFront / ALB
-                            │
-                    ┌───────┴────────┐
-                    │                │
-                    ▼                ▼
-                Frontend          Ingress
-                                     │
-                                Kubernetes
-                                     │
-                      ┌──────────────┼──────────────┐
-                      │              │              │
-                      ▼              ▼              ▼
-                  Backend         Worker       WebSocket
-                      │
-             ┌────────┼────────┐
-             │        │        │
-             ▼        ▼        ▼
-        PostgreSQL  Redis  Elasticsearch
-             │
-             ▼
-             S3
-```
-
-Observability:
-
-```text
-Application / Kubernetes
-        │
-        ├── Prometheus ──→ Grafana
-        │
-        ├── Loki ────────→ Grafana
-        │
-        └── OpenTelemetry → Tracing
-```
-
----
-
-# CI/CD & GitOps
-
-The target deployment workflow is:
-
-```text
-Developer
+Frontend
     │
     ▼
-Git Push
+Spring Boot API
     │
-    ▼
-CI Pipeline
+    ├── Domain Services
     │
-    ├── Build
-    ├── Unit Tests
-    ├── Integration Tests
-    ├── Security Scanning
-    └── Docker Build
-            │
-            ▼
-         ECR
-            │
-            ▼
-      Update GitOps
-        Repository
-            │
-            ▼
-          Argo CD
-            │
-            ▼
-       Kubernetes
-            │
-            ▼
-        Production
+    ├── Security
+    │
+    └── AI Agent
+           │
+           ├── Read Tools
+           │
+           └── Action Plan
+                  │
+                  ▼
+            User Confirmation
+                  │
+                  ▼
+           Domain Services
+                  │
+                  ▼
+              Database
 ```
 
-The goal is to make deployments:
-
-* Automated
-* Reproducible
-* Version-controlled
-* Observable
-* Rollbackable
+The long-term infrastructure will evolve toward a containerized, cloud-native and Kubernetes-based environment with CI/CD, GitOps, and observability.
 
 ---
 
-# Infrastructure as Code
+## Development Status
 
-AWS infrastructure is progressively managed using Terraform.
+> **Currently in active development.**
 
-Target infrastructure includes:
+Current focus:
 
-```text
-AWS
-├── VPC
-│   ├── Public Subnets
-│   └── Private Subnets
-│
-├── IAM
-├── Security Groups
-├── ECR
-├── RDS
-├── S3
-├── ALB
-├── CloudFront
-├── Route 53
-└── Kubernetes Infrastructure
-```
+* Core domain and database design
+* Organization and project management
+* Task and sprint management
+* Authentication and authorization
+* Backend API implementation
 
----
+Upcoming areas:
 
-# Observability
+* AI Agent and tool calling
+* Human-in-the-loop action execution
+* Frontend implementation
+* Testing
+* Containerization
+* CI/CD
+* AWS infrastructure
+* Kubernetes
+* GitOps
+* Observability
 
-The application is designed around the three major observability signals:
-
-```text
-Metrics
-   │
-   └── Prometheus → Grafana
-
-Logs
-   │
-   └── Loki → Grafana
-
-Traces
-   │
-   └── OpenTelemetry
-```
-
-Important metrics include:
-
-* Request rate
-* Error rate
-* HTTP status codes
-* P95/P99 latency
-* JVM memory
-* Garbage collection
-* CPU usage
-* Memory usage
-* Database connection pool
-* Kubernetes pod restarts
-* Container resource usage
+The order may change as the project evolves.
 
 ---
 
-# Security
+## Development Philosophy
 
-Security is treated as an engineering requirement rather than an additional feature.
+### Build before memorizing
 
-Areas covered include:
+Understand concepts by implementing and testing them.
 
-* Authentication
-* Authorization
-* RBAC
-* Password hashing
-* JWT security
-* Refresh token security
-* Input validation
-* SQL injection prevention
-* XSS prevention
-* CSRF considerations
-* CORS configuration
-* Rate limiting
-* IAM least privilege
-* Secret management
-* Dependency scanning
-* Container image scanning
-* Secure Docker images
-* Kubernetes security
-* Network isolation
+### Understand before abstracting
 
----
+Do not introduce abstractions before understanding the problem they solve.
 
-# Testing Strategy
+### Keep boundaries explicit
 
-Testing is implemented at multiple levels.
+Domain logic, security, infrastructure, and AI should have clear responsibilities.
 
-```text
-                 Testing
-                    │
-       ┌────────────┼────────────┐
-       │            │            │
-       ▼            ▼            ▼
-     Unit       Integration    E2E
-     Tests        Tests        Tests
-```
+### AI assists, application decides
+
+AI can analyze and propose actions, but authorization and business rules remain controlled by the application.
+
+### Break things intentionally
+
+Failure and troubleshooting are part of the learning process.
+
+### Document important decisions
+
+Architectural and infrastructure decisions should be documented together with their trade-offs.
 
 ---
 
-# Failure & Troubleshooting Lab
+## Long-Term Goal
 
-One of the main purposes of ForgeFlow is to practice troubleshooting rather than only implementing successful scenarios.
+ForgeFlow is not intended to be just another CRUD project.
 
-Examples of intentional failure scenarios:
+The long-term goal is to build a system where I can **implement, deploy, monitor, secure, troubleshoot, and explain** the technologies involved — from backend engineering and databases to cloud infrastructure, Kubernetes, CI/CD, and AI Agent workflows.
 
-```text
-Application
-├── Database unavailable
-├── Redis unavailable
-├── Elasticsearch unavailable
-├── Invalid JWT
-├── Expired token
-└── High API latency
-
-Docker
-├── Container health check failure
-├── Network connectivity issue
-└── Environment variable misconfiguration
-
-Kubernetes
-├── CrashLoopBackOff
-├── ImagePullBackOff
-├── Pending Pod
-├── Failed readiness probe
-├── Failed liveness probe
-├── Resource exhaustion
-└── Service connectivity failure
-
-AWS
-├── Security Group misconfiguration
-├── IAM permission failure
-├── Private subnet connectivity
-├── S3 access failure
-└── Load balancer routing failure
-
-CI/CD
-├── Failed tests
-├── Docker build failure
-├── Image push failure
-├── Deployment failure
-└── Rollback
-```
-
----
-
-# Development Philosophy
-
-ForgeFlow follows a few principles:
-
-### 1. Build before memorizing
-
-Instead of only reading documentation, concepts should be implemented and tested in the system.
-
-### 2. Understand before abstracting
-
-Avoid introducing infrastructure or abstractions before understanding the underlying problem.
-
-### 3. Automate repetitive operations
-
-Manual deployment should progressively be replaced by reproducible automation.
-
-### 4. Everything important should be observable
-
-If something can fail in production, there should eventually be a way to detect and diagnose it.
-
-### 5. Break the system intentionally
-
-Failure scenarios are part of the learning process.
-
-### 6. Document engineering decisions
-
-Important architectural and infrastructure decisions should be documented together with their trade-offs.
-
----
-
-# Status
-
-> **Early Development**
-
-The project is intentionally developed incrementally.
-
-Features, infrastructure, and technologies will be introduced only when their underlying concepts have been studied and understood.
-
----
-
-# Long-Term Goal
-
-The final goal is not simply to have a feature-complete application.
-
-The goal is to be able to answer, demonstrate, and troubleshoot questions such as:
-
-* How does Spring Security authenticate a request?
-* How does JWT authentication work?
-* How does JPA translate an object relationship into SQL?
-* How do you identify and fix an N+1 query?
-* How does a private EC2 instance access S3?
-* How does a Docker container communicate with another container?
-* What happens when a Kubernetes Pod crashes?
-* How does Kubernetes perform a rolling update?
-* How does Argo CD detect drift?
-* How does a CI/CD pipeline safely deploy a new version?
-* How do you monitor application latency?
-* How do you investigate a sudden increase in HTTP 5xx errors?
-* How do you troubleshoot a Pod stuck in `Pending`?
-* How do you troubleshoot `ImagePullBackOff`?
-* How does Terraform track infrastructure state?
-* How should AWS IAM permissions be designed?
-* What happens when Redis, PostgreSQL, or Elasticsearch becomes unavailable?
-
-**ForgeFlow is a learning environment built to answer those questions through implementation and experimentation rather than memorization.**
+**ForgeFlow is a work in progress.**
