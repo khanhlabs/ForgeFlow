@@ -1,7 +1,7 @@
 package com.example.backend.sprints.repositories;
 
-import com.example.backend.sprints.dto.SprintResponse;
 import com.example.backend.sprints.entities.Sprint;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -42,4 +42,6 @@ public interface SprintRepository extends JpaRepository<Sprint, Long> {
         WHERE s.project.id = :projectId
     """)
     List<Sprint> findByProjectId(Long projectId);
+
+    Optional<Sprint> findById(@NonNull Long id);
 }

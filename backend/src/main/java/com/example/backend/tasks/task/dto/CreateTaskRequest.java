@@ -26,6 +26,17 @@ public class CreateTaskRequest {
     @NotNull
     private TaskType type;
 
+    @NotNull
+    private Long projectId;
 
+    @NotNull
+    private Long sprintId;
+
+    @NotNull
+    private Long createdBy;
+
+    private Long assigneeId;
+
+    private Long parentId;
 
 }
