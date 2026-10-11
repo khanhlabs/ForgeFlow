@@ -16,6 +16,8 @@ import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.sprints.exceptions.InvalidSprintName;
 import com.example.backend.sprints.exceptions.NotEmptySprintException;
 import com.example.backend.sprints.exceptions.SprintNotFoundException;
+import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
+import com.example.backend.tasks.task.exceptions.*;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -181,6 +183,46 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleNotEmptySprintException(
             NotEmptySprintException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleTaskNotFoundException(
+            TaskNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(SprintProjectMismatchException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleSprintProjectMismatchException(
+            SprintProjectMismatchException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(InvalidTaskHierarchyException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleInvalidTaskHierarchyException(
+            InvalidTaskHierarchyException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(SubtaskMismatchException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleSubtaskMismatchException(
+            SubtaskMismatchException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(TaskSprintMismatchException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTaskSprintMismatchException(
+            TaskSprintMismatchException exception
     ){
         return exception.getMessage();
     }
