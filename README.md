@@ -25,7 +25,7 @@ Developed by **Pham Gia Khanh**
 ## Tech Stack
 
 * **Backend:** Java, Spring Boot, Spring Security, Spring Data JPA
-* **Frontend:** React, Vite, TypeScript
+* **Frontend:** React, Vite
 * **Database:** PostgreSQL, Flyway
 * **AI:** Python, FastAPI, LLM, AI Agent, Tool Calling, RAG
 * **DevOps & Cloud:** Docker, GitHub Actions, AWS, Terraform, Kubernetes, Argo CD
