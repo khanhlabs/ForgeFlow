@@ -226,4 +226,12 @@ public class GlobalExceptionHandler {
     ){
         return exception.getMessage();
     }
+
+    @ExceptionHandler(TaskContainsSubtaskException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTaskContainsSubtaskException(
+            TaskContainsSubtaskException exception
+    ){
+        return exception.getMessage();
+    }
 }
