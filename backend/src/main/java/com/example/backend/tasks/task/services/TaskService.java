@@ -12,8 +12,10 @@ import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
 import com.example.backend.sprints.repositories.SprintRepository;
 import com.example.backend.tasks.task.dto.CreateTaskRequest;
 import com.example.backend.tasks.task.dto.TaskResponse;
+import com.example.backend.tasks.task.dto.UpdateTaskRequest;
 import com.example.backend.tasks.task.entities.Task;
 import com.example.backend.tasks.task.exceptions.InvalidTaskHierarchyException;
+import com.example.backend.tasks.task.exceptions.TaskContainsSubtaskException;
 import com.example.backend.tasks.task.exceptions.TaskNotFoundException;
 import com.example.backend.tasks.task.exceptions.TaskSprintMismatchException;
 import com.example.backend.tasks.task.repositories.TaskRepository;
@@ -21,6 +23,9 @@ import com.example.backend.users.entities.User;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import com.example.backend.users.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -120,6 +125,75 @@ public class TaskService {
         taskRepository.save(task);
 
         return toResponse(task);
+    }
+
+    //GET ALL TASK
+    public List<TaskResponse> getAllTasks(){
+        return taskRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    //GET ALL TASK BY SPRINT
+    public List<TaskResponse> getTaskBySprint(Long sprintId){
+        return taskRepository.findBySprintId(sprintId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    //GET ALL TASK BY PROJECT
+    public List<TaskResponse> getTaskByProjectId(Long projectId){
+        return taskRepository.findByProjectId(projectId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    //GET TASK BY ID
+    public TaskResponse getTaskById(Long taskId){
+        return toResponse(taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException(taskId)));
+    }
+
+    //UPDATE TASK
+    public TaskResponse updateTask(
+            UpdateTaskRequest request,
+            Long taskId
+    ){
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException(taskId));
+
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setStatus(request.getStatus());
+        task.setPriority(request.getPriority());
+        task.setType(request.getType());
+        task.setSprint(task.getSprint());
+
+        if (request.getAssigneeId() != null){
+            User assignee = userRepository.findById(request.getAssigneeId())
+                    .orElseThrow(() -> new UserNotFoundException(request.getAssigneeId()));
+
+            task.setAssignee(assignee);
+        }
+
+        taskRepository.save(task);
+        return toResponse(task);
+    }
+
+    //DELETE TASK
+    public void deleteTask(Long taskId){
+        if (taskRepository.findByParentTaskId(taskId) != null){
+            throw new TaskContainsSubtaskException(taskId);
+        }
+
+        if (!taskRepository.existsById(taskId)){
+            throw new TaskNotFoundException(taskId);
+        }
+
+        taskRepository.deleteById(taskId);
     }
 
     //TO RESPONSE
