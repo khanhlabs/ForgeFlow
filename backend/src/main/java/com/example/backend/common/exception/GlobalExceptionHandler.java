@@ -203,10 +203,10 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
-    @ExceptionHandler(InvalidTaskHierarchyException.class)
+    @ExceptionHandler(InvalidHierarchyException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleInvalidTaskHierarchyException(
-            InvalidTaskHierarchyException exception
+            InvalidHierarchyException exception
     ){
         return exception.getMessage();
     }

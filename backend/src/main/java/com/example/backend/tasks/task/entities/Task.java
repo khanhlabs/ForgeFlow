@@ -2,7 +2,6 @@ package com.example.backend.tasks.task.entities;
 
 import com.example.backend.attachments.entities.Attachment;
 import com.example.backend.projects.project.entities.Project;
-import com.example.backend.projects.project_members.entities.ProjectMember;
 import com.example.backend.sprints.entities.Sprint;
 import com.example.backend.tasks.task.enums.TaskPriority;
 import com.example.backend.tasks.task.enums.TaskStatus;
@@ -34,9 +33,9 @@ public class Task {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Size(max = 255)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "title", nullable = false, length = 255)
+    @Column(name = "title", nullable = false, length = 50)
     private String title;
 
     @Column(name = "description", columnDefinition = "TEXT")

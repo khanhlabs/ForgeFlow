@@ -14,16 +14,12 @@ import com.example.backend.tasks.task.dto.CreateTaskRequest;
 import com.example.backend.tasks.task.dto.TaskResponse;
 import com.example.backend.tasks.task.dto.UpdateTaskRequest;
 import com.example.backend.tasks.task.entities.Task;
-import com.example.backend.tasks.task.exceptions.InvalidTaskHierarchyException;
+import com.example.backend.tasks.task.exceptions.InvalidHierarchyException;
 import com.example.backend.tasks.task.exceptions.TaskContainsSubtaskException;
 import com.example.backend.tasks.task.exceptions.TaskNotFoundException;
-import com.example.backend.tasks.task.exceptions.TaskSprintMismatchException;
 import com.example.backend.tasks.task.repositories.TaskRepository;
 import com.example.backend.users.entities.User;
-import com.example.backend.users.exceptions.UserNotFoundException;
-import com.example.backend.users.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -32,20 +28,17 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final SprintRepository sprintRepository;
-    private final UserRepository userRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectRepository projectRepository;
 
     public TaskService(
             TaskRepository taskRepository,
             SprintRepository sprintRepository,
-            UserRepository userRepository,
             ProjectMemberRepository projectMemberRepository,
             ProjectRepository projectRepository
     ) {
         this.taskRepository = taskRepository;
         this.sprintRepository = sprintRepository;
-        this.userRepository = userRepository;
         this.projectMemberRepository = projectMemberRepository;
         this.projectRepository = projectRepository;
     }
@@ -63,9 +56,17 @@ public class TaskService {
                     .orElseThrow(() -> new TaskNotFoundException(request.getParentId()));
 
             if (parentTask.getParentTask() != null) {
-                throw new InvalidTaskHierarchyException(
+                throw new InvalidHierarchyException(
                         "A subtask cannot have a subtask"
                 );
+            }
+
+            if (!parentTask.getProject().getId().equals(request.getProjectId())) {
+                throw new InvalidHierarchyException("Subtask project must be the same with parent task project");
+            }
+
+            if (!parentTask.getSprint().getId().equals(request.getSprintId())) {
+                throw new InvalidHierarchyException("Subtask sprint must be the same with parent task sprint");
             }
 
             sprint = parentTask.getSprint();
@@ -106,8 +107,10 @@ public class TaskService {
             assignee = projectMember.getUser();
         }
 
-        User createdBy = userRepository.findById(request.getCreatedBy())
-                .orElseThrow(() -> new UserNotFoundException(request.getCreatedBy()));
+        ProjectMember member = projectMemberRepository.findByUserIdAndProjectId(request.getCreatedBy(), project.getId())
+                .orElseThrow(() ->new ProjectMemberNotFoundException(request.getCreatedBy()));
+
+        User createdBy = member.getUser();
 
 
         Task task = new Task();
@@ -165,32 +168,40 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
 
+
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setStatus(request.getStatus());
         task.setPriority(request.getPriority());
         task.setType(request.getType());
-        task.setSprint(task.getSprint());
 
-        if (request.getAssigneeId() != null){
-            User assignee = userRepository.findById(request.getAssigneeId())
-                    .orElseThrow(() -> new UserNotFoundException(request.getAssigneeId()));
+        if (request.getAssigneeId() == null) {
+            task.setAssignee(null);
+        } else {
+            ProjectMember projectMember = projectMemberRepository
+                    .findByUserIdAndProjectId(
+                            request.getAssigneeId(),
+                            task.getProject().getId()
+                    )
+                    .orElseThrow(() ->
+                            new ProjectMemberNotFoundException(request.getAssigneeId())
+                    );
 
-            task.setAssignee(assignee);
+            task.setAssignee(projectMember.getUser());
         }
 
-        taskRepository.save(task);
-        return toResponse(task);
+        Task savedTask = taskRepository.save(task);
+        return toResponse(savedTask);
     }
 
-    //DELETE TASK
-    public void deleteTask(Long taskId){
-        if (taskRepository.findByParentTaskId(taskId) != null){
-            throw new TaskContainsSubtaskException(taskId);
+    // DELETE TASK
+    public void deleteTask(Long taskId) {
+        if (!taskRepository.existsById(taskId)) {
+            throw new TaskNotFoundException(taskId);
         }
 
-        if (!taskRepository.existsById(taskId)){
-            throw new TaskNotFoundException(taskId);
+        if (taskRepository.existsByParentTaskId(taskId)) {
+            throw new TaskContainsSubtaskException(taskId);
         }
 
         taskRepository.deleteById(taskId);
@@ -207,10 +218,17 @@ public class TaskService {
         taskResponse.setPriority(task.getPriority());
         taskResponse.setType(task.getType());
         taskResponse.setProjectId(task.getProject().getId());
-        taskResponse.setSprintId(task.getSprint().getId());
+        taskResponse.setSprintId(
+                task.getSprint() != null ? task.getSprint().getId() : null
+        );
         taskResponse.setCreatedBy(task.getCreatedBy().getId());
-        taskResponse.setAssigneeId(task.getAssignee().getId());
-        taskResponse.setParentId(task.getId());
+        taskResponse.setAssigneeId(
+                task.getAssignee() != null ? task.getAssignee().getId() : null
+        );
+        taskResponse.setParentId(
+                task.getParentTask() != null ? task.getParentTask().getId() : null
+        );
+
         return taskResponse;
     }
 
