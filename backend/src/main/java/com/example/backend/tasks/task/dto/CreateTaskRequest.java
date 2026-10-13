@@ -12,7 +12,7 @@ import lombok.Data;
 public class CreateTaskRequest {
 
     @NotBlank
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 50)
     private String title;
 
     private String description;
@@ -29,7 +29,6 @@ public class CreateTaskRequest {
     @NotNull
     private Long projectId;
 
-    @NotNull
     private Long sprintId;
 
     @NotNull
