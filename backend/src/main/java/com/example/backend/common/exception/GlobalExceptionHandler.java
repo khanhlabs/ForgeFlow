@@ -18,6 +18,7 @@ import com.example.backend.sprints.exceptions.NotEmptySprintException;
 import com.example.backend.sprints.exceptions.SprintNotFoundException;
 import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
 import com.example.backend.tasks.task.exceptions.*;
+import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -231,6 +232,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTaskContainsSubtaskException(
             TaskContainsSubtaskException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(TaskCommentNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleTaskCommentNotFoundException(
+            TaskCommentNotFoundException exception
     ){
         return exception.getMessage();
     }
