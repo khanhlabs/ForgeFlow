@@ -3,6 +3,6 @@ package com.example.backend.tasks.task_comment.dto;
 import lombok.Data;
 
 @Data
-public class TaskCommentUpdate {
+public class UpdateTaskCommentRequest {
     private String content;
 }

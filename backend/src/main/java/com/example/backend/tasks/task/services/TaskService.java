@@ -18,6 +18,8 @@ import com.example.backend.tasks.task.exceptions.InvalidHierarchyException;
 import com.example.backend.tasks.task.exceptions.TaskContainsSubtaskException;
 import com.example.backend.tasks.task.exceptions.TaskNotFoundException;
 import com.example.backend.tasks.task.repositories.TaskRepository;
+import com.example.backend.tasks.task_comment.entities.TaskComment;
+import com.example.backend.tasks.task_comment.repositories.TaskCommentRepository;
 import com.example.backend.users.entities.User;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +32,20 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectRepository projectRepository;
+    private final TaskCommentRepository taskCommentRepository;
 
     public TaskService(
             TaskRepository taskRepository,
             SprintRepository sprintRepository,
             ProjectMemberRepository projectMemberRepository,
-            ProjectRepository projectRepository
+            ProjectRepository projectRepository,
+            TaskCommentRepository taskCommentRepository
     ) {
         this.taskRepository = taskRepository;
         this.sprintRepository = sprintRepository;
         this.projectMemberRepository = projectMemberRepository;
         this.projectRepository = projectRepository;
+        this.taskCommentRepository = taskCommentRepository;
     }
 
     //CREATE TASK
