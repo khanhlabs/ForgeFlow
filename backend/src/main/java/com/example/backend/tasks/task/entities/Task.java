@@ -83,9 +83,7 @@ public class Task {
     @Column(name = "created_at")
     private Instant createdAt;
 
-    @NotNull
     @UpdateTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 

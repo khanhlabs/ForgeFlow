@@ -32,20 +32,17 @@ public class TaskService {
     private final SprintRepository sprintRepository;
     private final ProjectMemberRepository projectMemberRepository;
     private final ProjectRepository projectRepository;
-    private final TaskCommentRepository taskCommentRepository;
 
     public TaskService(
             TaskRepository taskRepository,
             SprintRepository sprintRepository,
             ProjectMemberRepository projectMemberRepository,
-            ProjectRepository projectRepository,
-            TaskCommentRepository taskCommentRepository
+            ProjectRepository projectRepository
     ) {
         this.taskRepository = taskRepository;
         this.sprintRepository = sprintRepository;
         this.projectMemberRepository = projectMemberRepository;
         this.projectRepository = projectRepository;
-        this.taskCommentRepository = taskCommentRepository;
     }
 
     //CREATE TASK
