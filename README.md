@@ -84,8 +84,8 @@ ForgeFlow is built to explore practical engineering challenges beyond basic CRUD
 - [x] Organization management
 - [x] Project management
 - [x] Organization and project member management
-- [x] Task and subtask management
 - [x] Sprint management
+- [x] Task and subtask management
 - [ ] Authentication and authorization — In Progress
 - [ ] Comments and collaboration — Upcoming
 - [ ] Search and activity tracking — Upcoming
