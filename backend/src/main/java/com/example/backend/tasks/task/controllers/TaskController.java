@@ -57,6 +57,14 @@ public class TaskController {
         return taskService.getTaskById(taskId);
     }
 
+    //GET SUBTASK  BY TASK
+    @GetMapping("/subtasks/{taskId}")
+    public List<TaskResponse> getSubtaskByTask(
+            @PathVariable Long taskId
+    ){
+        return taskService.getSubtaskByParentTask(taskId);
+    }
+
     //UPDATE TASK
     @PutMapping("/{taskId}")
     public TaskResponse updateTask(
