@@ -1,6 +1,5 @@
 package com.example.backend.labels.repositories;
 
-import com.example.backend.labels.dto.LabelResponse;
 import com.example.backend.labels.entities.Label;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -11,10 +11,7 @@ import com.example.backend.labels.repositories.LabelRepository;
 import com.example.backend.projects.project.entities.Project;
 import com.example.backend.projects.project.exceptions.ProjectNotFoundException;
 import com.example.backend.projects.project.repositories.ProjectRepository;
-import com.example.backend.tasks.task.entities.Task;
-import com.example.backend.tasks.task.exceptions.TaskNotFoundException;
 import com.example.backend.tasks.task.repositories.TaskRepository;
-import com.example.backend.tasks.task_label.entities.TaskLabelId;
 import com.example.backend.tasks.task_label.repositories.TaskLabelRepository;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +23,15 @@ public class LabelService {
     private final LabelRepository labelRepository;
     private final ProjectRepository projectRepository;
     private final TaskLabelRepository taskLabelRepository;
-    private final TaskRepository taskRepository;
 
     public LabelService(
             LabelRepository labelRepository,
             ProjectRepository projectRepository,
-            TaskLabelRepository taskLabelRepository,
-            TaskRepository taskRepository
+            TaskLabelRepository taskLabelRepository
     ) {
         this.labelRepository = labelRepository;
         this.projectRepository = projectRepository;
         this.taskLabelRepository = taskLabelRepository;
-        this.taskRepository = taskRepository;
     }
 
     //CREATE LABEL
@@ -99,11 +93,10 @@ public class LabelService {
 
     //DELETE LABEL
     public void deleteLabel(
-            Long labelId,
-            Long taskId
+            Long labelId
     ){
-        if (taskLabelRepository.existsByTaskIdAndLabelId(taskId, labelId)){
-            throw new LabelStillAttachExceptions(labelId, taskId);
+        if (taskLabelRepository.existsByLabelId(labelId)){
+            throw new LabelStillAttachExceptions(labelId);
         }
 
         labelRepository.deleteById(labelId);
