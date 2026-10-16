@@ -134,7 +134,7 @@ public class TaskService {
 
     //GET ALL TASK
     public List<TaskResponse> getAllTasks(){
-        return taskRepository.findAll()
+        return taskRepository.findByParentTaskIsNull()
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -142,7 +142,7 @@ public class TaskService {
 
     //GET ALL TASK BY SPRINT
     public List<TaskResponse> getTaskBySprint(Long sprintId){
-        return taskRepository.findBySprintId(sprintId)
+        return taskRepository.findBySprintIdAndParentTaskIsNull(sprintId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -150,7 +150,7 @@ public class TaskService {
 
     //GET ALL TASK BY PROJECT
     public List<TaskResponse> getTaskByProject(Long projectId){
-        return taskRepository.findByProjectId(projectId)
+        return taskRepository.findByProjectIdAndParentTaskIsNull(projectId)
                 .stream()
                 .map(this::toResponse)
                 .toList();
@@ -158,8 +158,16 @@ public class TaskService {
 
     //GET TASK BY ID
     public TaskResponse getTaskById(Long taskId){
-        return toResponse(taskRepository.findById(taskId)
+        return toResponse(taskRepository.findByIdAndParentTaskIsNull(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(taskId)));
+    }
+
+    //GET ALL SUBTASK
+    public List<TaskResponse> getSubtaskByParentTask(Long taskId){
+        return taskRepository.findByParentTaskId(taskId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     //UPDATE TASK
