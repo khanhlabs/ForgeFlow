@@ -1,5 +1,8 @@
 package com.example.backend.common.exception;
 
+import com.example.backend.labels.exceptions.LabelAlreadyExistsException;
+import com.example.backend.labels.exceptions.LabelNotFoundExceptions;
+import com.example.backend.labels.exceptions.LabelStillAttachExceptions;
 import com.example.backend.organizations.organization.exceptions.OrganizationAlreadyExistException;
 import com.example.backend.organizations.organization.exceptions.OrganizationHasMemberException;
 import com.example.backend.organizations.organization.exceptions.OrganizationHasProjectException;
@@ -240,6 +243,30 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleTaskCommentNotFoundException(
             TaskCommentNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(LabelAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleLabelAlreadyExistsException(
+            LabelAlreadyExistsException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(LabelNotFoundExceptions.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleLabelNotFoundException(
+            LabelNotFoundExceptions exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(LabelStillAttachExceptions.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleLabelStillAttachException(
+            LabelStillAttachExceptions exception
     ){
         return exception.getMessage();
     }
