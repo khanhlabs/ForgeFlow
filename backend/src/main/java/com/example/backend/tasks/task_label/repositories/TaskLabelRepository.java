@@ -5,5 +5,6 @@ import com.example.backend.tasks.task_label.entities.TaskLabelId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TaskLabelRepository extends JpaRepository<TaskLabel, TaskLabelId> {
-    boolean existsByTaskIdAndLabelId(Long taskId, Long labelId);
+
+    boolean existsByLabelId(Long labelId);
 }
