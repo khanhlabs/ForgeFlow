@@ -2,7 +2,7 @@
 
 **A Project Management Platform**
 
-Developed by **Pham Gia Khanh**
+Developed by **Pham Gia Khanh**  -  ***In progress***
 
 ForgeFlow is a production-oriented project management platform designed to simulate real-world software development workflows while serving as an end-to-end engineering lab.
 
@@ -101,9 +101,3 @@ ForgeFlow is built to explore practical engineering challenges beyond basic CRUD
 - [ ] Automated CI/CD and AWS deployment — Upcoming
 - [ ] Kubernetes and GitOps deployment — Upcoming
 - [ ] Observability with metrics, logs, and distributed tracing — Upcoming
-
-## Project Status
-
-**In Progress**
-
-ForgeFlow is under active development. Features are delivered incrementally, with the goal of building a functional project management platform supported by a realistic, automated, and observable deployment environment.
