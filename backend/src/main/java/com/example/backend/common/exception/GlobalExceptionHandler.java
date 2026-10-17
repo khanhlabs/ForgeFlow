@@ -15,6 +15,8 @@ import com.example.backend.organizations.organization_member.exceptions.InvalidO
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberAlreadyExistException;
 import com.example.backend.organizations.organization_member.exceptions.OrganizationMemberNotFoundException;
 import com.example.backend.projects.project_members.exceptions.*;
+import com.example.backend.roles.exceptions.RoleAlreadyExistsException;
+import com.example.backend.roles.exceptions.RoleInMemberException;
 import com.example.backend.roles.exceptions.RoleNotFoundException;
 import com.example.backend.sprints.exceptions.InvalidSprintName;
 import com.example.backend.sprints.exceptions.NotEmptySprintException;
@@ -267,6 +269,22 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleLabelStillAttachException(
             LabelStillAttachExceptions exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(RoleAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleRoleAlreadyExistsException(
+            RoleAlreadyExistsException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(RoleInMemberException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleRoleInMemberException(
+            RoleInMemberException exception
     ){
         return exception.getMessage();
     }
