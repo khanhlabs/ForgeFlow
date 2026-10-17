@@ -23,6 +23,7 @@ import com.example.backend.sprints.exceptions.NotEmptySprintException;
 import com.example.backend.sprints.exceptions.SprintNotFoundException;
 import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
 import com.example.backend.tasks.task.exceptions.*;
+import com.example.backend.tasks.task_comment.exceptions.SameProjectForTaskUserException;
 import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundException;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -285,6 +286,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleRoleInMemberException(
             RoleInMemberException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(SameProjectForTaskUserException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleSameProjectForTaskUserException(
+            SameProjectForTaskUserException exception
     ){
         return exception.getMessage();
     }

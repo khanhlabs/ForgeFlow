@@ -36,15 +36,11 @@ public class TaskComment {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @NotNull
     @CreationTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    @NotNull
     @UpdateTimestamp
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 

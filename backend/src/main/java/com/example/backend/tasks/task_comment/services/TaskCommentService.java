@@ -1,5 +1,7 @@
 package com.example.backend.tasks.task_comment.services;
 
+import com.example.backend.projects.project_members.exceptions.ProjectMemberNotFoundException;
+import com.example.backend.projects.project_members.repositories.ProjectMemberRepository;
 import com.example.backend.tasks.task.entities.Task;
 import com.example.backend.tasks.task.exceptions.TaskNotFoundException;
 import com.example.backend.tasks.task.repositories.TaskRepository;
@@ -7,6 +9,7 @@ import com.example.backend.tasks.task_comment.dto.CreateTaskCommentRequest;
 import com.example.backend.tasks.task_comment.dto.TaskCommentResponse;
 import com.example.backend.tasks.task_comment.dto.UpdateTaskCommentRequest;
 import com.example.backend.tasks.task_comment.entities.TaskComment;
+import com.example.backend.tasks.task_comment.exceptions.SameProjectForTaskUserException;
 import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundException;
 import com.example.backend.tasks.task_comment.repositories.TaskCommentRepository;
 import com.example.backend.users.entities.User;
@@ -22,24 +25,39 @@ public class TaskCommentService {
     private final TaskCommentRepository taskCommentRepository;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final ProjectMemberRepository projectMemberRepository;
 
     public TaskCommentService(
             TaskCommentRepository taskCommentRepository,
             TaskRepository taskRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            ProjectMemberRepository projectMemberRepository
     ) {
         this.taskCommentRepository = taskCommentRepository;
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.projectMemberRepository = projectMemberRepository;
     }
 
     //CREATE TASK COMMENT
-    public TaskCommentResponse createTaskComment(CreateTaskCommentRequest request){
+    public TaskCommentResponse createTaskComment(
+            CreateTaskCommentRequest request
+    ){
         Task task = taskRepository.findById(request.getTaskId())
                 .orElseThrow(() -> new TaskNotFoundException(request.getTaskId()));
 
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(request.getUserId()));
+
+        if (!projectMemberRepository.existsByUserId(user.getId())){
+            throw new ProjectMemberNotFoundException(request.getUserId());
+        }
+
+        Long projectId = task.getProject().getId();
+
+        if (!projectMemberRepository.existsByProjectIdAndUserId(projectId, user.getId())){
+            throw new SameProjectForTaskUserException("User and Task are not in the same project");
+        }
 
         TaskComment taskComment = new TaskComment();
 
