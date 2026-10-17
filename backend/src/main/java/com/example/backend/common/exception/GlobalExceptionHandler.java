@@ -25,6 +25,9 @@ import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
 import com.example.backend.tasks.task.exceptions.*;
 import com.example.backend.tasks.task_comment.exceptions.SameProjectForTaskUserException;
 import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundException;
+import com.example.backend.tasks.task_label.exceptions.LabelStillAttachToTaskException;
+import com.example.backend.tasks.task_label.exceptions.TaskLabelNotFoundException;
+import com.example.backend.tasks.task_label.exceptions.TaskLabelProjectException;
 import com.example.backend.users.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -294,6 +297,30 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleSameProjectForTaskUserException(
             SameProjectForTaskUserException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(TaskLabelProjectException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTaskLabelProjectException(
+            TaskLabelProjectException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(TaskLabelNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleTaskLabelNotFoundException(
+            TaskLabelNotFoundException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(LabelStillAttachToTaskException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleLabelStillAttachToTaskException(
+            LabelStillAttachToTaskException exception
     ){
         return exception.getMessage();
     }
