@@ -41,5 +41,7 @@ public interface OrganizationMemberRepository extends JpaRepository<Organization
     boolean existsByOrganizationIdAndUserId(Long organizationId, Long userId);
 
     boolean existsByOrganizationId(Long organizationId);
+
+    boolean existsByRoleId(Long roleId);
 }
 

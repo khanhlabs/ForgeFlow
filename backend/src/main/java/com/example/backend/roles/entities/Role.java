@@ -27,7 +27,6 @@ public class Role {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Size(max = 20)
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "scope", nullable = false, length = 20)
