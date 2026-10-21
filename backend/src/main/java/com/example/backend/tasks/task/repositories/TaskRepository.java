@@ -22,4 +22,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findBySprintIdAndParentTaskIsNull(Long sprintId);
 
     List<Task> findByParentTaskId(Long parentTaskId);
+
+    boolean existsByAssigneeId(Long assigneeId);
 }

@@ -28,7 +28,10 @@ import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundExce
 import com.example.backend.tasks.task_label.exceptions.TaskLabelAlreadyExistsException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelNotFoundException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelProjectException;
+import com.example.backend.users.exceptions.EmailAlreadyExistException;
+import com.example.backend.users.exceptions.CanNotDeleteUserException;
 import com.example.backend.users.exceptions.UserNotFoundException;
+import com.example.backend.users.exceptions.UserNotFoundWithEmail;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -321,6 +324,30 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleTaskLabelAlreadyExistsException(
             TaskLabelAlreadyExistsException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(UserNotFoundWithEmail.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleUserNotFoundWithEmail(
+            UserNotFoundWithEmail exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(EmailAlreadyExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleEmailAlreadyExistException(
+            EmailAlreadyExistException exception
+    ){
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(CanNotDeleteUserException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleUserAssigneeToTaskException(
+            CanNotDeleteUserException exception
     ){
         return exception.getMessage();
     }
