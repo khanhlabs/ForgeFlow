@@ -7,7 +7,5 @@ import lombok.Data;
 public class UpdateTaskLabelRequest {
 
     @NotNull
-    private Long taskId;
-    @NotNull
     private Long labelId;
 }

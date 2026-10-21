@@ -13,10 +13,11 @@ import com.example.backend.tasks.task_label.dto.TaskLabelResponse;
 import com.example.backend.tasks.task_label.dto.UpdateTaskLabelRequest;
 import com.example.backend.tasks.task_label.entities.TaskLabel;
 import com.example.backend.tasks.task_label.entities.TaskLabelId;
-import com.example.backend.tasks.task_label.exceptions.LabelStillAttachToTaskException;
+import com.example.backend.tasks.task_label.exceptions.TaskLabelAlreadyExistsException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelNotFoundException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelProjectException;
 import com.example.backend.tasks.task_label.repositories.TaskLabelRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,29 +35,50 @@ public class TaskLabelService {
             ProjectRepository projectRepository,
             TaskRepository taskRepository,
             LabelRepository labelRepository
-    ) {
+    ){
         this.taskLabelRepository = taskLabelRepository;
         this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
         this.labelRepository = labelRepository;
     }
 
-    //CREATE TASK LABEL
+    // CREATE TASK LABEL
     public TaskLabelResponse createTaskLabel(
             CreateTaskLabelRequest request
-    ){
+    ) {
         if (!projectRepository.existsById(request.getProjectId())) {
             throw new ProjectNotFoundException(request.getProjectId());
         }
 
         Task task = taskRepository.findById(request.getTaskId())
-                .orElseThrow(() -> new TaskNotFoundException(request.getTaskId()));
+                .orElseThrow(
+                        () -> new TaskNotFoundException(request.getTaskId())
+                );
 
         Label label = labelRepository.findById(request.getLabelId())
-                .orElseThrow(() -> new LabelNotFoundExceptions(request.getLabelId()));
+                .orElseThrow(
+                        () -> new LabelNotFoundExceptions(request.getLabelId())
+                );
 
-        if (!task.getProject().getId().equals(label.getProject().getId())){
-            throw new TaskLabelProjectException("Task label does not in the same project project");
+        Long taskProjectId = task.getProject().getId();
+        Long labelProjectId = label.getProject().getId();
+        Long requestProjectId = request.getProjectId();
+
+        if (!taskProjectId.equals(labelProjectId)
+                || !requestProjectId.equals(taskProjectId)) {
+            throw new TaskLabelProjectException(
+                    "Task and label must belong to the specified project"
+            );
+        }
+
+        if (taskLabelRepository.existsByTaskIdAndLabelId(
+                request.getTaskId(),
+                request.getLabelId()
+        )) {
+            throw new TaskLabelAlreadyExistsException(
+                    request.getTaskId(),
+                    request.getLabelId()
+            );
         }
 
         TaskLabelId id = new TaskLabelId();
@@ -64,15 +86,14 @@ public class TaskLabelService {
         id.setLabelId(request.getLabelId());
 
         TaskLabel taskLabel = new TaskLabel();
-
         taskLabel.setId(id);
-        taskLabel.setProjectId(request.getProjectId());
+        taskLabel.setProjectId(taskProjectId);
         taskLabel.setTask(task);
         taskLabel.setLabel(label);
 
-        taskLabelRepository.save(taskLabel);
+        TaskLabel savedTaskLabel = taskLabelRepository.save(taskLabel);
 
-        return toResponse(taskLabel);
+        return toResponse(savedTaskLabel);
     }
 
     //GET ALL TASK LABEL
@@ -92,35 +113,83 @@ public class TaskLabelService {
     }
 
     //UPDATE TASK LABEL
+    @Transactional
     public TaskLabelResponse updateTaskLabel(
-            TaskLabelId taskLabelId,
+            Long taskId,
+            Long labelId,
+            Long projectId,
             UpdateTaskLabelRequest request
-    ){
-        TaskLabel taskLabel = taskLabelRepository.findById(taskLabelId)
-                .orElseThrow(() -> new TaskLabelNotFoundException(taskLabelId));
+    ) {
+        TaskLabel oldTaskLabel = taskLabelRepository
+                .findByTaskIdAndLabelId(taskId, labelId)
+                .orElseThrow(() ->
+                        new TaskLabelNotFoundException(taskId, labelId)
+                );
 
-        Task task = taskRepository.findById(request.getTaskId())
-                        .orElseThrow(() -> new TaskNotFoundException(request.getTaskId()));
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() ->
+                        new TaskNotFoundException(taskId)
+                );
 
-        Label label = labelRepository.findById(request.getLabelId())
-                        .orElseThrow(() -> new LabelNotFoundExceptions(request.getLabelId()));
+        Label newLabel = labelRepository.findById(request.getLabelId())
+                .orElseThrow(() ->
+                        new LabelNotFoundExceptions(request.getLabelId())
+                );
 
-        taskLabel.setTask(task);
-        taskLabel.setLabel(label);
+        if (!projectId.equals(task.getProject().getId())) {
+            throw new TaskLabelProjectException("Can not change project");
+        }
 
-        taskLabelRepository.save(taskLabel);
+        if (!projectId.equals(newLabel.getProject().getId())) {
+            throw new TaskLabelProjectException(
+                    "Label must belong to current project"
+            );
+        }
 
-        return toResponse(taskLabel);
+        if (labelId.equals(newLabel.getId())) {
+            return toResponse(oldTaskLabel);
+        }
+
+        if (taskLabelRepository.existsByTaskIdAndLabelId(
+                taskId,
+                newLabel.getId()
+        )) {
+            throw new TaskLabelAlreadyExistsException(
+                    taskId,
+                    newLabel.getId()
+            );
+        }
+
+        taskLabelRepository.delete(oldTaskLabel);
+        taskLabelRepository.flush();
+
+        TaskLabelId newId = new TaskLabelId();
+        newId.setTaskId(taskId);
+        newId.setLabelId(newLabel.getId());
+
+        TaskLabel newTaskLabel = new TaskLabel();
+        newTaskLabel.setId(newId);
+        newTaskLabel.setProjectId(projectId);
+        newTaskLabel.setTask(task);
+        newTaskLabel.setLabel(newLabel);
+
+        taskLabelRepository.save(newTaskLabel);
+
+        return toResponse(newTaskLabel);
     }
 
     //DELETE TASK LABEL
-    public void deleteTaskLabel(TaskLabelId taskLabelId){
+    @Transactional
+    public void deleteTaskLabel(
+            Long taskId,
+            Long labelId
+    ){
 
-        if (taskLabelRepository.existsById(taskLabelId)){
-            throw new LabelStillAttachToTaskException(taskLabelId);
+        if (!taskLabelRepository.existsByTaskIdAndLabelId(taskId, labelId)) {
+            throw new TaskLabelNotFoundException(labelId, taskId);
         }
 
-        taskLabelRepository.deleteById(taskLabelId);
+        taskLabelRepository.deleteByTaskIdAndLabelId(taskId, labelId);
     }
 
 

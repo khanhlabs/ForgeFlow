@@ -6,10 +6,17 @@ import com.example.backend.tasks.task_label.entities.TaskLabelId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TaskLabelRepository extends JpaRepository<TaskLabel, TaskLabelId> {
 
     boolean existsByLabelId(Long labelId);
 
     List<TaskLabel> findByTaskId(Long taskId);
+
+    boolean existsByTaskIdAndLabelId(Long taskId, Long labelId);
+
+    Optional<TaskLabel> findByTaskIdAndLabelId(Long taskId, Long labelId);
+
+    void deleteByTaskIdAndLabelId(Long taskId, Long labelId);
 }

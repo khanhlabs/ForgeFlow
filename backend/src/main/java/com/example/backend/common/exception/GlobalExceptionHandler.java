@@ -25,7 +25,7 @@ import com.example.backend.sprints.exceptions.SprintProjectMismatchException;
 import com.example.backend.tasks.task.exceptions.*;
 import com.example.backend.tasks.task_comment.exceptions.SameProjectForTaskUserException;
 import com.example.backend.tasks.task_comment.exceptions.TaskCommentNotFoundException;
-import com.example.backend.tasks.task_label.exceptions.LabelStillAttachToTaskException;
+import com.example.backend.tasks.task_label.exceptions.TaskLabelAlreadyExistsException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelNotFoundException;
 import com.example.backend.tasks.task_label.exceptions.TaskLabelProjectException;
 import com.example.backend.users.exceptions.UserNotFoundException;
@@ -317,10 +317,10 @@ public class GlobalExceptionHandler {
         return exception.getMessage();
     }
 
-    @ExceptionHandler(LabelStillAttachToTaskException.class)
+    @ExceptionHandler(TaskLabelAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleLabelStillAttachToTaskException(
-            LabelStillAttachToTaskException exception
+    public String handleTaskLabelAlreadyExistsException(
+            TaskLabelAlreadyExistsException exception
     ){
         return exception.getMessage();
     }
