@@ -88,7 +88,7 @@ ForgeFlow is built to explore practical engineering challenges beyond basic CRUD
 - [x] Task and subtask management
 - [x] Label management
 - [x] TaskComment management
-- [ ] TaskLabel management - In progress
+- [x] TaskLabel management
 - [x] Roles management
 - [ ] Users management
 - [ ] Authentication and authorization — In Progress
