@@ -28,6 +28,10 @@
     </scm>
     <properties>
         <java.version>25</java.version>
+        <jackson-bom.version>3.1.7</jackson-bom.version>
+        <tomcat.version>11.0.27</tomcat.version>
+        <logback.version>1.6.5</logback.version>
+        <asm.version>9.11.1</asm.version>
     </properties>
     <dependencies>
         <dependency>

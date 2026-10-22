@@ -1,6 +1,7 @@
 package com.example.backend.users.entities;
 
 import com.example.backend.attachments.entities.Attachment;
+import com.example.backend.auth.entities.RefreshToken;
 import com.example.backend.projects.project_members.entities.ProjectMember;
 import com.example.backend.tasks.task.entities.Task;
 import com.example.backend.tasks.task_comment.entities.TaskComment;
@@ -65,5 +66,7 @@ public class User {
     @OneToMany(mappedBy = "assignee")
     private Set<Task> assignedTasks = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    private Set<RefreshToken> refreshTokens = new LinkedHashSet<>();
 
 }

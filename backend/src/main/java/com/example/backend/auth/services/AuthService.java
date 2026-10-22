@@ -19,4 +19,7 @@ public class AuthService {
     public void register(CreateUserRequest request) {
         userService.createUser(request);
     }
+
+    //LOGIN
+
 }

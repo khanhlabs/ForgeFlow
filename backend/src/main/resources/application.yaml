@@ -22,3 +22,7 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+app:
+  auth:
+    refresh-token-expiration-days: 7
