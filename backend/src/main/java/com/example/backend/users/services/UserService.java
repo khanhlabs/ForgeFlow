@@ -41,12 +41,13 @@ public class UserService {
 
     //CREATE USER
     public UserResponse createUser(CreateUserRequest request) {
-        String hashedPassword = passwordEncoder
-                .encode(request.getPassword());
 
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistException("Email already exists");
         }
+
+        String hashedPassword = passwordEncoder
+                .encode(request.getPassword());
 
         User user = new User();
 
