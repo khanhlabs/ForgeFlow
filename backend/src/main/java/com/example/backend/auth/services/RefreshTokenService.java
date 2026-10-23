@@ -1,6 +1,7 @@
 package com.example.backend.auth.services;
 
 import com.example.backend.auth.entities.RefreshToken;
+import com.example.backend.auth.properties.AuthProperties;
 import com.example.backend.auth.repositories.RefreshTokenRepository;
 import com.example.backend.users.entities.User;
 import jakarta.transaction.Transactional;
@@ -15,17 +16,16 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final RefreshTokenGenerator generator;
-    private final long refreshTokenExpirationDays;
+    private final AuthProperties authProperties;
 
     public RefreshTokenService(
             RefreshTokenRepository refreshTokenRepository,
             RefreshTokenGenerator generator,
-            @Value("${refresh-token-expiration-days: 7}")
-            long refreshTokenExpirationDays
+            AuthProperties authProperties
     ) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.generator = generator;
-        this.refreshTokenExpirationDays = refreshTokenExpirationDays;
+        this.authProperties = authProperties;
     }
 
     @Transactional
@@ -38,7 +38,7 @@ public class RefreshTokenService {
         refreshToken.setTokenHash(generator.hash(rawToken));
         refreshToken.setFamilyId(UUID.randomUUID());
         refreshToken.setExpiresAt(
-                Instant.now().plus(refreshTokenExpirationDays, ChronoUnit.DAYS)
+                Instant.now().plus(authProperties.getRefreshTokenExpirationDays(), ChronoUnit.DAYS)
         );
 
         refreshTokenRepository.save(refreshToken);
