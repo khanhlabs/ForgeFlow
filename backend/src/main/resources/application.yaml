@@ -25,4 +25,6 @@ spring:
 
 app:
   auth:
-    refresh-token-expiration-days: 7
+    refresh-token-expiration-days: ${REFRESH_TOKEN_EXPIRATION_DAYS:7}
+    access-token-expiration-minutes: ${ACCESS_TOKEN_EXPIRATION_MINUTES:15}
+    jwt-secret: ${JWT_SECRET}

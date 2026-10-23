@@ -10,4 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class AuthProperties {
 
     private long refreshTokenExpirationDays = 7;
+    private long accessTokenExpirationMinutes = 15;
+    private String jwtSecret;
 }
