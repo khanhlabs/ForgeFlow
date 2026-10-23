@@ -3,8 +3,8 @@ spring:
     name: backend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/ForgeFlow
-    username: postgres
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   docker:
