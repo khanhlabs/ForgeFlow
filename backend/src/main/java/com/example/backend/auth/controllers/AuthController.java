@@ -1,5 +1,6 @@
 package com.example.backend.auth.controllers;
 
+import com.example.backend.auth.dto.LoginRequest;
 import com.example.backend.auth.services.AuthService;
 import com.example.backend.users.dto.CreateUserRequest;
 import jakarta.validation.Valid;
@@ -29,5 +30,21 @@ public class AuthController {
     }
 
     //LOGIN
+    @RequestMapping("/login")
+    public void login(
+            @Valid @RequestBody LoginRequest request
+            ){
+
+    }
+
+    //LOGOUT
+    @RequestMapping("/logout")
+    public void logout(){
+
+    }
+
+    //REFRESH
+    @RequestMapping("/refresh")
+    public  void refresh(){}
 
 }
