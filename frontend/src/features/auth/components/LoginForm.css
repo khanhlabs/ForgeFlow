@@ -1,0 +1,265 @@
+/* ========================================
+   LOGIN FORM
+======================================== */
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    width: 100%;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+/* Input fields */
+
+.email-field,
+.password-field {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    padding: 0 17px;
+    border: 1px solid var(--login-border, #d4e0fa);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.65);
+    transition:
+            border-color 160ms ease,
+            box-shadow 160ms ease,
+            background-color 160ms ease;
+}
+
+.email-field:focus-within,
+.password-field:focus-within {
+    border-color: #7390ff;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(49, 92, 255, 0.08);
+}
+
+.email-field-icon,
+.password-field-icon {
+    display: block;
+    flex: 0 0 23px;
+    width: 23px;
+    height: 23px;
+    object-fit: contain;
+}
+
+.email-field input,
+.password-field input {
+    display: block;
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    padding: 12px 0;
+    border: none;
+    outline: none;
+    color: #101a3a;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.email-field input::placeholder,
+.password-field input::placeholder {
+    color: #7484ad;
+    opacity: 1;
+}
+
+/* Password visibility */
+
+.password-toggle {
+    display: flex;
+    flex: 0 0 26px;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    color: #7182ac;
+    background: transparent;
+    cursor: pointer;
+    transition: color 160ms ease;
+}
+
+.password-toggle:hover {
+    color: #315cff;
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid #7390ff;
+    outline-offset: 2px;
+}
+
+.eye-icon,
+.eye-slash-icon {
+    display: block;
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+}
+
+/* Validation errors */
+
+.field-error {
+    margin: -14px 0 0;
+    color: #d13e4b;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Remember me & forgot password */
+
+.form-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: -7px;
+}
+
+.remember-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #5a5d66;
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.remember-me-text{
+    padding-bottom: 1px;
+}
+
+.remember-option input {
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+    margin: 0;
+    accent-color: #315cff;
+    cursor: pointer;
+}
+
+.remember-me-text {
+    display: inline-block;
+}
+
+.forgot-password {
+    color: #174cff;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-decoration: none;
+    transition: color 160ms ease;
+}
+
+.forgot-password:hover {
+    color: #6741ff;
+    text-decoration: underline;
+}
+
+.forgot-password:focus-visible {
+    outline: 2px solid #7390ff;
+    outline-offset: 3px;
+}
+
+/* Submit button */
+
+.login-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 54px;
+    margin-top: 8px;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 11px;
+    color: #ffffff;
+    background: linear-gradient(105deg, #315dff 0%, #6840ff 100%);
+    box-shadow: 0 4px 12px rgba(64, 77, 255, 0.08);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    cursor: pointer;
+    transition:
+            transform 160ms ease,
+            box-shadow 160ms ease,
+            opacity 160ms ease;
+}
+
+.login-submit:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px rgba(64, 77, 255, 0.22);
+}
+
+.login-submit:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.login-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.login-submit:focus-visible {
+    outline: 3px solid rgba(49, 92, 255, 0.35);
+    outline-offset: 3px;
+}
+
+.login-submit img {
+    display: block;
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* General form error */
+
+.login-form .form-error {
+    margin: -12px 0 0;
+    color: #d13e4b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Mobile */
+
+@media (max-width: 380px) {
+    .login-form {
+        gap: 18px;
+    }
+
+    .form-field {
+        gap: 18px;
+    }
+
+    .email-field,
+    .password-field {
+        gap: 12px;
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .form-options {
+        gap: 8px;
+    }
+}
